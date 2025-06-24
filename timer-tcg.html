@@ -23,15 +23,13 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        
-body {
-    min-height: 100vh;
-    width: 100vw;
-    overflow-y: auto;
-    background: #000;
-    padding-bottom: 80px;
-}
-
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: #000;
+            position: fixed;
+        }
         
         .player-section {
             height: 50vh;
@@ -1053,8 +1051,8 @@ body {
     
     <!-- Botón de cambio de turno -->
     <button id="turnBtn" class="turn-btn" onclick="switchTurn()">
-        <span class="turn-arrow">↑</span>
-        <span>TURNO ROJO</span>
+        <span class="turn-arrow"></span>
+        <span>↑ TURNO ROJO ↑</span>
         <span class="turn-arrow">↑</span>
     </button>
     
@@ -1103,7 +1101,7 @@ body {
             
             <div class="config-btn-group">
                 <button class="apply-btn" onclick="applyDisplaySettings()">Aplicar</button>
-                <button class="cancel-btn" onclick="hideConfig()">ATRAS</button>
+                <button class="warning-btn" onclick="hideConfig()">ATRAS</button>
             </div>
         </div>
         
@@ -1138,7 +1136,7 @@ body {
             <div class="config-btn-group">
                 <button class="apply-btn" onclick="updateAbilities()">Aplicar</button>
                 <button class="reset-btn" onclick="resetAbilities()">Reset</button>
-                <button class="cancel-btn" onclick="hideConfig()">ATRAS</button>
+                <button class="warning-btn" onclick="hideConfig()">ATRAS</button>
             </div>
         </div>
     </div>
