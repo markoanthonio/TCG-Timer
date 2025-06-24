@@ -268,14 +268,14 @@
         }
         
         .start-btn {
-            bottom: 48%;
+            bottom: 40%;
             right: 15px;
             background: #4CAF50;
             color: white;
         }
         
         .config-btn {
-            top: 50%;
+            top: 44%;
             left: 15px;
             transform: translateY(-50%);
         }
@@ -288,7 +288,7 @@
         }
         
         .pause-btn {
-            bottom: 48%;
+            bottom: 40%;
             right: 15px;
             background: #ff9800;
             color: white;
@@ -552,83 +552,454 @@
             color: white;
         }
         
-        /* Responsive adjustments */
-        @media (max-height: 600px) {
+        /* Responsive Design - Adaptación completa para todos los dispositivos */
+        
+        /* Para tablets en landscape (1024px - 1366px) */
+        @media (min-width: 1024px) and (max-width: 1366px) {
             .time-display {
-                font-size: 3rem;
-                margin: 10px 0;
+                font-size: 4.2rem;
+                margin: 18px 0;
             }
             
             .life-display {
-                font-size: 4.5rem;
-                margin: 5px 0;
+                font-size: 6.2rem;
+                margin: 12px 0;
+            }
+            
+            .life-display.with-timer {
+                font-size: 4.8rem;
+                margin-bottom: 6px;
+            }
+            
+            .time-display.with-life {
+                font-size: 2.6rem;
+                margin: 12px 0 6px 0;
+            }
+            
+            .ability-button {
+                min-width: 145px;
+                height: 52px;
+                font-size: 1rem;
+                padding: 0 16px;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 205px;
+                height: 57px;
+                font-size: 1.15rem;
+                padding: 0 22px;
+            }
+            
+            .life-btn {
+                width: 62px;
+                height: 62px;
+                font-size: 2.1rem;
+            }
+            
+            .turn-btn {
+                height: 65px;
+                font-size: 1.6rem;
+            }
+            
+            .control-btn {
+                width: 52px;
+                height: 52px;
+                font-size: 1.25rem;
+            }
+        }
+        
+        /* Para tablets en portrait (768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .time-display {
+                font-size: 3.8rem;
+                margin: 16px 0;
+            }
+            
+            .life-display {
+                font-size: 5.8rem;
+                margin: 10px 0;
+            }
+            
+            .life-display.with-timer {
+                font-size: 4.3rem;
+                margin-bottom: 5px;
+            }
+            
+            .time-display.with-life {
+                font-size: 2.4rem;
+                margin: 10px 0 5px 0;
+            }
+            
+            .ability-button {
+                min-width: 135px;
+                height: 48px;
+                font-size: 0.9rem;
+                padding: 0 14px;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 190px;
+                height: 54px;
+                font-size: 1.05rem;
+                padding: 0 20px;
+            }
+            
+            .life-btn {
+                width: 58px;
+                height: 58px;
+                font-size: 2rem;
+            }
+            
+            .turn-btn {
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .control-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.15rem;
+            }
+        }
+        
+        /* Para móviles grandes (481px - 767px) */
+        @media (min-width: 481px) and (max-width: 767px) {
+            .time-display {
+                font-size: 3rem;
+                margin: 12px 0;
+            }
+            
+            .life-display {
+                font-size: 4.8rem;
+                margin: 6px 0;
             }
             
             .life-display.with-timer {
                 font-size: 3.5rem;
+                margin-bottom: 2px;
             }
             
             .time-display.with-life {
-                font-size: 2rem;
+                font-size: 1.9rem;
+                margin: 6px 0 2px 0;
             }
             
             .ability-button {
-                min-width: 120px;
-                height: 45px;
-                font-size: 0.85rem;
-                padding: 0 12px;
-            }
-            
-            .ability-button.main-marker {
-                min-width: 170px;
-                height: 50px;
-                font-size: 1rem;
-                padding: 0 15px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .time-display {
-                font-size: 2.5rem;
-                margin: 8px 0;
-            }
-            
-            .life-display {
-                font-size: 4rem;
-                margin: 5px 0;
-            }
-            
-            .life-display.with-timer {
-                font-size: 3rem;
-            }
-            
-            .time-display.with-life {
-                font-size: 1.8rem;
-            }
-            
-            .ability-button {
-                min-width: 100px;
-                height: 40px;
-                font-size: 0.75rem;
+                min-width: 115px;
+                height: 44px;
+                font-size: 0.8rem;
                 padding: 0 10px;
             }
             
             .ability-button.main-marker {
-                min-width: 150px;
-                height: 45px;
-                font-size: 0.9rem;
+                min-width: 165px;
+                height: 49px;
+                font-size: 0.95rem;
+                padding: 0 16px;
+            }
+            
+            .life-btn {
+                width: 52px;
+                height: 52px;
+                font-size: 1.7rem;
+            }
+            
+            .turn-btn {
+                height: 52px;
+                font-size: 1.3rem;
+            }
+            
+            .control-btn {
+                width: 43px;
+                height: 43px;
+                font-size: 1.05rem;
+            }
+            
+            .life-controls {
+                gap: 15px;
+            }
+        }
+        
+        /* Para móviles estándar (320px - 480px) */
+        @media (min-width: 320px) and (max-width: 480px) {
+            * {
+                font-size: 1.05rem;
+            }
+            
+            .time-display {
+                font-size: 2.4rem;
+                margin: 10px 0;
+            }
+            
+            .life-display {
+                font-size: 3.8rem;
+                margin: 5px 0;
+            }
+            
+            .life-display.with-timer {
+                font-size: 2.8rem;
+                margin-bottom: 1px;
+            }
+            
+            .time-display.with-life {
+                font-size: 1.6rem;
+                margin: 5px 0 1px 0;
+            }
+            
+            .ability-button {
+                min-width: 100px;
+                height: 38px;
+                font-size: 0.75rem;
+                padding: 0 8px;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 145px;
+                height: 43px;
+                font-size: 0.85rem;
                 padding: 0 12px;
             }
             
             .life-btn {
-                width: 50px;
-                height: 50px;
+                width: 46px;
+                height: 46px;
                 font-size: 1.5rem;
             }
             
             .turn-btn {
-                font-size: 1.2rem;
-                height: 50px;
+                height: 46px;
+                font-size: 1.1rem;
+                left: 8%;
+                right: 8%;
+                width: 84%;
+            }
+            
+            .control-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 0.95rem;
+            }
+            
+            .start-btn, .pause-btn {
+                right: 10px;
+            }
+            
+            .config-btn {
+                left: 10px;
+            }
+            
+            .final-stop-btn {
+                left: 10px;
+            }
+            
+            .life-controls {
+                gap: 12px;
+                margin-top: 8px;
+            }
+        }
+        
+        /* Para móviles muy pequeños (hasta 319px) */
+        @media (max-width: 319px) {
+            * {
+                font-size: 0.95rem;
+            }
+            
+            .time-display {
+                font-size: 2rem;
+                margin: 6px 0;
+            }
+            
+            .life-display {
+                font-size: 3.2rem;
+                margin: 3px 0;
+            }
+            
+            .life-display.with-timer {
+                font-size: 2.4rem;
+                margin-bottom: 1px;
+            }
+            
+            .time-display.with-life {
+                font-size: 1.4rem;
+                margin: 3px 0 1px 0;
+            }
+            
+            .ability-button {
+                min-width: 85px;
+                height: 34px;
+                font-size: 0.65rem;
+                padding: 0 6px;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 125px;
+                height: 38px;
+                font-size: 0.75rem;
+                padding: 0 10px;
+            }
+            
+            .life-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+            
+            .turn-btn {
+                height: 40px;
+                font-size: 0.9rem;
+                left: 5%;
+                right: 5%;
+                width: 90%;
+            }
+            
+            .control-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 0.8rem;
+            }
+            
+            .start-btn, .pause-btn {
+                right: 8px;
+            }
+            
+            .config-btn {
+                left: 8px;
+            }
+            
+            .final-stop-btn {
+                left: 8px;
+            }
+            
+            .life-controls {
+                gap: 10px;
+                margin-top: 6px;
+            }
+        }
+        
+        /* Ajustes específicos para pantallas con altura reducida */
+        @media (max-height: 600px) {
+            .time-display {
+                font-size: 2.6rem;
+                margin: 6px 0;
+            }
+            
+            .life-display {
+                font-size: 3.6rem;
+                margin: 3px 0;
+            }
+            
+            .life-display.with-timer {
+                font-size: 2.6rem;
+                margin-bottom: 1px;
+            }
+            
+            .time-display.with-life {
+                font-size: 1.6rem;
+                margin: 3px 0 1px 0;
+            }
+            
+            .ability-button {
+                min-width: 105px;
+                height: 36px;
+                font-size: 0.75rem;
+                padding: 0 8px;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 145px;
+                height: 41px;
+                font-size: 0.85rem;
+                padding: 0 12px;
+            }
+            
+            .life-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1.4rem;
+            }
+            
+            .turn-btn {
+                height: 44px;
+                font-size: 1.1rem;
+            }
+            
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            
+            .life-controls {
+                gap: 12px;
+                margin-top: 6px;
+            }
+        }
+        
+        /* Ajustes para pantallas muy altas (landscape en móviles) */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .time-display {
+                font-size: 2.2rem;
+                margin: 4px 0;
+            }
+            
+            .life-display {
+                font-size: 3rem;
+                margin: 2px 0;
+            }
+            
+            .life-display.with-timer {
+                font-size: 2.2rem;
+                margin-bottom: 1px;
+            }
+            
+            .time-display.with-life {
+                font-size: 1.3rem;
+                margin: 2px 0 1px 0;
+            }
+            
+            .ability-button {
+                min-width: 90px;
+                height: 32px;
+                font-size: 0.65rem;
+                padding: 0 6px;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 125px;
+                height: 36px;
+                font-size: 0.75rem;
+                padding: 0 10px;
+            }
+            
+            .life-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+            }
+            
+            .turn-btn {
+                height: 36px;
+                font-size: 0.9rem;
+            }
+            
+            .control-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.75rem;
+            }
+            
+            .life-controls {
+                gap: 8px;
+                margin-top: 4px;
+            }
+        }
+        
+        /* Ajustes adicionales para pantallas muy anchas */
+        @media (min-aspect-ratio: 16/9) {
+            .turn-btn {
+                left: 25%;
+                right: 25%;
+                width: 50%;
             }
         }
     </style>
@@ -648,7 +1019,7 @@
             
             <!-- Marcadores de habilidades -->
             <div class="ability-markers" id="markers1">
-                <button class="ability-button main-marker" onclick="toggleAbility(this)">TRAINER</button>
+                <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
             </div>
         </div>
     </div>
@@ -667,7 +1038,7 @@
             
             <!-- Marcadores de habilidades -->
             <div class="ability-markers" id="markers2">
-                <button class="ability-button main-marker" onclick="toggleAbility(this)">TRAINER</button>
+                <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
             </div>
         </div>
     </div>
@@ -712,11 +1083,11 @@
                 <div class="option-group">
                     <div class="option-item">
                         <input type="radio" id="mode-timer" name="display-mode" value="timer">
-                        <label for="mode-timer">Cronómetro</label>
+                        <label for="mode-timer">Solo Cronómetro</label>
                     </div>
                     <div class="option-item">
                         <input type="radio" id="mode-life" name="display-mode" value="life">
-                        <label for="mode-life">Contador de Vida</label>
+                        <label for="mode-life">Solo Contador de Vida</label>
                     </div>
                     <div class="option-item">
                         <input type="radio" id="mode-both" name="display-mode" value="both" checked>
@@ -730,7 +1101,7 @@
             
             <div class="config-btn-group">
                 <button class="apply-btn" onclick="applyDisplaySettings()">Aplicar</button>
-                <button class="warning-btn" onclick="hideConfig()">ATRAS</button>
+                <button class="cancel-btn" onclick="hideConfig()">ATRAS</button>
             </div>
         </div>
         
@@ -741,7 +1112,7 @@
             <!-- Marcadores Jugador 1 -->
             <div class="markers-config">
                 <h4>Jugador 1 (Rojo)</h4>
-                <input type="text" id="main-ability1" class="config-input" placeholder="Marcador principal" value="TRAINER">
+                <input type="text" id="main-ability1" class="config-input" placeholder="Marcador principal" value="GX/EX/V">
                 <div class="marker-counter" id="ability-counter1">Marcadores adicionales: 0/6</div>
                 <div class="marker-input-group">
                     <input type="text" id="new-ability1" class="marker-input" placeholder="Nuevo marcador">
@@ -753,7 +1124,7 @@
             <!-- Marcadores Jugador 2 -->
             <div class="markers-config">
                 <h4>Jugador 2 (Azul)</h4>
-                <input type="text" id="main-ability2" class="config-input" placeholder="Marcador principal" value="TRAINER">
+                <input type="text" id="main-ability2" class="config-input" placeholder="Marcador principal" value="GX/EX/V">
                 <div class="marker-counter" id="ability-counter2">Marcadores adicionales: 0/6</div>
                 <div class="marker-input-group">
                     <input type="text" id="new-ability2" class="marker-input" placeholder="Nuevo marcador">
@@ -765,7 +1136,7 @@
             <div class="config-btn-group">
                 <button class="apply-btn" onclick="updateAbilities()">Aplicar</button>
                 <button class="reset-btn" onclick="resetAbilities()">Reset</button>
-                <button class="warning-btn" onclick="hideConfig()">Atras</button>
+                <button class="cancel-btn" onclick="hideConfig()">ATRAS</button>
             </div>
         </div>
     </div>
@@ -782,8 +1153,8 @@
         let displayMode = 'both'; // 'timer', 'life', 'both'
         
         // Configuración de marcadores
-        let player1Abilities = ['TRAINER'];
-        let player2Abilities = ['TRAINER'];
+        let player1Abilities = ['GX/EX/V'];
+        let player2Abilities = ['GX/EX/V'];
         let additionalAbilities1 = [];
         let additionalAbilities2 = [];
         
@@ -938,8 +1309,8 @@
         
         // Actualizar marcadores
         function updateAbilities() {
-            player1Abilities[0] = document.getElementById('main-ability1').value || 'TRAINER';
-            player2Abilities[0] = document.getElementById('main-ability2').value || 'TRAINER';
+            player1Abilities[0] = document.getElementById('main-ability1').value || 'GX/EX/V';
+            player2Abilities[0] = document.getElementById('main-ability2').value || 'GX/EX/V';
             
             createAbilityMarkers();
             saveConfig();
@@ -948,8 +1319,8 @@
         
         // Resetear marcadores
         function resetAbilities() {
-            player1Abilities = ['TRAINER'];
-            player2Abilities = ['TRAINER'];
+            player1Abilities = ['GX/EX/V'];
+            player2Abilities = ['GX/EX/V'];
             additionalAbilities1 = [];
             additionalAbilities2 = [];
             
@@ -1190,8 +1561,8 @@
                 life1 = config.life1 || 20;
                 life2 = config.life2 || 20;
                 displayMode = config.displayMode || 'both';
-                player1Abilities = config.player1Abilities || ['TRAINER'];
-                player2Abilities = config.player2Abilities || ['TRAINER'];
+                player1Abilities = config.player1Abilities || ['GX/EX/V'];
+                player2Abilities = config.player2Abilities || ['GX/EX/V'];
                 additionalAbilities1 = config.additionalAbilities1 || [];
                 additionalAbilities2 = config.additionalAbilities2 || [];
                 
