@@ -1,4 +1,3 @@
-<div style="width:100%;max-width:600px;margin:0 auto;">
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,13 +13,16 @@
             --green-state: #1302ff;
             --red-state: #f44336;
         }
-
+        
         html, body {
             height: 100%;
-            min-height: 100vh;
-            min-width: 100vw;
+            min-height: 100%;
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             overflow: hidden;
         }
 
@@ -28,25 +30,16 @@
             background: #000;
             display: flex;
             flex-direction: column;
-            justify-content: stretch;
             align-items: stretch;
             height: 100vh;
             min-height: 100vh;
             width: 100vw;
-            border-bottom: 5px solid rgba(255,255,255,0.1);
-            box-sizing: border-box;
-        }
-
-        * {
-            box-sizing: border-box;
+            min-width: 100vw;
+            max-width: 100vw;
             margin: 0;
             padding: 0;
-            font-family: 'Montserrat', 'Comic Sans MS', 'Comic Sans', cursive, 'Arial', sans-serif;
-            font-size: 1.25rem;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
         }
-
         .player-section {
             flex: 1 1 0;
             min-height: 0;
@@ -80,7 +73,7 @@
 
         .player1 .player-content,
         .player2 .player-content {
-            height: 100%;
+            height: 90%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -184,34 +177,46 @@
 
         .ability-button {
             position: absolute;
-            min-width: 140px;
-            height: 50px;
-            border-radius: 10px;
-            border: 2px solid white;
-            background: var(--green-state);
-            color: white;
-            font-size: 0.95rem;
+            min-width: 12%;
+            height: 11%;
+            border-radius: 20px;
+            border: 2px solid var(--accent-color);
+            background: linear-gradient(135deg, var(--green-state) 60%, #2e8bff 100%);
+            color: #fff;
+            font-size: 1.05rem;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: 
+            background 0.2s, 
+            box-shadow 0.2s, 
+            transform 0.15s;
             pointer-events: auto;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            padding: 0 15px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25), 0 1.5px 0 var(--accent-color) inset;
+            padding: 0 8%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            outline: none;
+        }
+        .ability-button:active {
+            background: linear-gradient(135deg, #1a1a1a 60%, var(--green-state) 100%);
+            transform: scale(0.97);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        }
+        .ability-button:focus {
+            box-shadow: 0 0 0 3px var(--accent-color), 0 4px 16px rgba(0,0,0,0.25);
         }
 
         .ability-button.main-marker {
-            min-width: 200px;
-            height: 55px;
-            font-size: 1.1rem;
-            padding: 0 20px;
-            border-width: 3px;
+            min-width: 80%;
+            height: 10%;
+            font-size: 1rem;
+            padding: 0 20%;
+            border: #fbff00;
         }
 
         .player1 .ability-button.main-marker {
@@ -253,52 +258,87 @@
         /* Controles flotantes */
         .control-btn {
             position: fixed;
-            width: 50px;
-            height: 50px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: none;
-            background: rgba(255,255,255,0.9);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #fffbe7 70%, #e6e6e6 100%);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             z-index: 10;
             cursor: pointer;
+            transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
+            outline: none;
+        }
+        .control-btn:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+            transform: scale(1.08);
+            background: linear-gradient(135deg, #fffbe7 60%, #ffe066 100%);
+        }
+        .control-btn:active {
+            transform: scale(0.96);
+            background: linear-gradient(135deg, #f5e9b8 70%, #e6e6e6 100%);
         }
 
         .start-btn {
             bottom: 40%;
-            right: 15px;
+            right: 12px;
             background: #4CAF50;
-            color: white;
+            color: rgb(255, 255, 255);
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+
         }
 
         .config-btn {
             top: 44%;
-            left: 15px;
+            left: 12px;
             transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+
         }
 
         .stop-btn {
             bottom: 60%;
-            right: 15px;
+            right: 12px;
             background: #f44336;
             color: white;
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+
         }
 
         .pause-btn {
             bottom: 40%;
-            right: 15px;
+            right: 12px;
             background: #ff9800;
-            color: white;
+            color: rgb(21, 250, 0);
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+
         }
 
         .final-stop-btn {
             bottom: 40%;
-            left: 15px;
+            left: 12px;
             background: #f44336;
             color: white;
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
         }
 
         /* Cambiado: Botón de cambio de turno centrado en la pantalla */
@@ -308,7 +348,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 80vw;
-            max-width: 500px;
+            max-width: 400px;
             height: 60px;
             border-radius: 30px 30px 30px 30px;
             background: var(--accent-color);
@@ -346,18 +386,20 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.95);
-            padding: 15px;
-            border-radius: 15px;
-            width: 95vw;
-            max-width: 500px;
-            max-height: 90vh;
+            background: rgba(0,0,0,0.97);
+            padding: 20px 10px;
+            border-radius: 16px;
+            width: 96vw;
+            max-width: 420px;
+            max-height: 92vh;
+            min-width: 260px;
             z-index: 30;
             display: none;
             color: white;
             text-align: center;
             overflow-y: auto;
             border: 2px solid rgba(255,255,255,0.2);
+            box-sizing: border-box;
         }
 
         .config-tabs {
@@ -379,7 +421,7 @@
 
         .config-tab.active {
             background: var(--accent-color);
-            color: #000;
+            color: #000000ad;
         }
 
         .config-content {
@@ -552,38 +594,6 @@
             background: #666;
             color: white;
         }
-
-        /* Responsive adjustments */
-        @media (max-width: 900px) {
-            .life-display { font-size: 4rem; }
-            .life-display.with-timer { font-size: 3rem; }
-            .time-display { font-size: 2.5rem; }
-            .time-display.with-life { font-size: 1.5rem; }
-            .ability-button { min-width: 90px; height: 38px; font-size: 0.8rem; }
-            .ability-button.main-marker { min-width: 120px; height: 42px; font-size: 0.95rem; }
-            .control-btn { width: 40px; height: 40px; font-size: 1rem; }
-            .turn-btn { height: 48px; font-size: 1.1rem; max-width: 350px; }
-        }
-
-        @media (max-width: 600px) {
-            .life-display { font-size: 2.5rem; }
-            .life-display.with-timer { font-size: 1.7rem; }
-            .time-display { font-size: 1.5rem; }
-            .time-display.with-life { font-size: 1rem; }
-            .ability-button { min-width: 60px; height: 28px; font-size: 0.7rem; }
-            .ability-button.main-marker { min-width: 80px; height: 32px; font-size: 0.8rem; }
-            .control-btn { width: 32px; height: 32px; font-size: 0.8rem; }
-            .turn-btn { height: 38px; font-size: 0.9rem; max-width: 220px; }
-            .config-panel { max-width: 98vw; padding: 5px; }
-        }
-
-        @media (max-height: 700px) {
-            .life-display { font-size: 3rem; }
-            .life-display.with-timer { font-size: 2rem; }
-            .time-display { font-size: 1.7rem; }
-            .time-display.with-life { font-size: 1.1rem; }
-            .turn-btn { height: 38px; font-size: 0.9rem; }
-        }
     </style>
 </head>
 <body>
@@ -641,14 +651,14 @@
     <!-- Panel de configuración -->
     <div id="configPanel" class="config-panel">
         <div class="config-tabs">
-            <button class="config-tab active" onclick="showTab(event, 'timer')">Cronómetro</button>
-            <button class="config-tab" onclick="showTab(event, 'display')">Pantalla</button>
-            <button class="config-tab" onclick="showTab(event, 'markers')">Marcadores</button>
+            <button class="config-tab active" onclick="showTab(event, 'timer')">Tiempo</button>
+            <button class="config-tab" onclick="showTab(event, 'display')">+</button>
+            <button class="config-tab" onclick="showTab(event, 'markers')">Botones</button>
         </div>
         
         <!-- Configuración del cronómetro -->
         <div id="timer-config" class="config-content active">
-            <h3>Configuración del Cronómetro</h3>
+            <h3>Cuenta Atras "Minutos"</h3>
             <input type="number" id="timerMinutes" class="config-input" placeholder="Minutos por jugador" value="25" min="1" max="120">
             <div class="config-btn-group">
                 <button class="apply-btn" onclick="applyTimerSettings()">Aplicar</button>
@@ -693,24 +703,24 @@
             
             <!-- Marcadores Jugador 1 -->
             <div class="markers-config">
-                <h4>Jugador 1 (Rojo)</h4>
-                <input type="text" id="main-ability1" class="config-input" placeholder="Marcador principal" value="GX/EX/V">
+                <h4>Jugador Rojo</h4>
+                <input type="text" id="main-ability1" class="config-input" placeholder="Marcador principal" value="TRAINER">
                 <div class="marker-counter" id="ability-counter1">Marcadores adicionales: 0/6</div>
                 <div class="marker-input-group">
                     <input type="text" id="new-ability1" class="marker-input" placeholder="Nuevo marcador">
-                    <button id="add-btn1" class="add-marker-btn" onclick="addAdditionalMarker(1)">Agregar</button>
+                    <button id="add-btn1" class="add-marker-btn" onclick="addAdditionalMarker(1)">+</button>
                 </div>
                 <div id="additional-markers1" class="marker-list"></div>
             </div>
             
             <!-- Marcadores Jugador 2 -->
             <div class="markers-config">
-                <h4>Jugador 2 (Azul)</h4>
-                <input type="text" id="main-ability2" class="config-input" placeholder="Marcador principal" value="GX/EX/V">
+                <h4>Jugador Morado</h4>
+                <input type="text" id="main-ability2" class="config-input" placeholder="Marcador principal" value="TRAINER">
                 <div class="marker-counter" id="ability-counter2">Marcadores adicionales: 0/6</div>
                 <div class="marker-input-group">
                     <input type="text" id="new-ability2" class="marker-input" placeholder="Nuevo marcador">
-                    <button id="add-btn2" class="add-marker-btn" onclick="addAdditionalMarker(2)">Agregar</button>
+                    <button id="add-btn2" class="add-marker-btn" onclick="addAdditionalMarker(2)">+</button>
                 </div>
                 <div id="additional-markers2" class="marker-list"></div>
             </div>
