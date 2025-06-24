@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>POKEMON TCG TIMER</title>
+    <title>TCG - MARKO</title>
     <style>
         :root {
             --player1-color: #860202;
@@ -232,22 +232,22 @@
         
         /* Posiciones predefinidas para los botones - Jugador 1 (rojo, arriba) */
         .player1 .ability-button.main-marker { top: 80%; left: 50%; }
-        .player1 .ability-button:nth-child(2) { top: 10%; left: 6%; }
-        .player1 .ability-button:nth-child(3) { top: 10%; right: 6%; }
-        .player1 .ability-button:nth-child(4) { top: 25%; left: 4%; }
-        .player1 .ability-button:nth-child(5) { top: 25%; right: 4%; }
-        .player1 .ability-button:nth-child(6) { top: 40%; left: 6%; }
-        .player1 .ability-button:nth-child(7) { top: 40%; right: 6%; }
-        .player1 .ability-button:nth-child(8) { top: 55%; left: 50%; transform: translateX(-50%); }
+        .player1 .ability-button:nth-child(2) { top: 30%; left: 6%; }
+        .player1 .ability-button:nth-child(3) { top: 30%; right: 6%; }
+        .player1 .ability-button:nth-child(4) { top: 50%; left: 4%; }
+        .player1 .ability-button:nth-child(5) { top: 50%; right: 4%; }
+        .player1 .ability-button:nth-child(6) { top: 68%; left: 6%; }
+        .player1 .ability-button:nth-child(7) { top: 68%; right: 6%; }
+        .player1 .ability-button:nth-child(8) { top: 68%; left: 50%; transform: translateX(-50%); }
         
         /* Posiciones predefinidas para los botones - Jugador 2 (azul, abajo) */
         .player2 .ability-button.main-marker { bottom: 8%; left: 50%; transform: translateX(-50%); }
-        .player2 .ability-button:nth-child(2) { bottom: 55%; left: 6%; }
-        .player2 .ability-button:nth-child(3) { bottom: 55%; right: 6%; }
+        .player2 .ability-button:nth-child(2) { bottom: 60%; left: 6%; }
+        .player2 .ability-button:nth-child(3) { bottom: 60%; right: 6%; }
         .player2 .ability-button:nth-child(4) { bottom: 40%; left: 4%; }
         .player2 .ability-button:nth-child(5) { bottom: 40%; right: 4%; }
-        .player2 .ability-button:nth-child(6) { bottom: 25%; left: 6%; }
-        .player2 .ability-button:nth-child(7) { bottom: 25%; right: 6%; }
+        .player2 .ability-button:nth-child(6) { bottom: 20%; left: 6%; }
+        .player2 .ability-button:nth-child(7) { bottom: 20%; right: 6%; }
         .player2 .ability-button:nth-child(8) { bottom: 10%; left: 50%; transform: translateX(-50%); }
         
         /* Controles flotantes */
@@ -712,15 +712,15 @@
                 <div class="option-group">
                     <div class="option-item">
                         <input type="radio" id="mode-timer" name="display-mode" value="timer">
-                        <label for="mode-timer">Solo Cronómetro</label>
+                        <label for="mode-timer">Cronómetro</label>
                     </div>
                     <div class="option-item">
                         <input type="radio" id="mode-life" name="display-mode" value="life">
-                        <label for="mode-life">Solo Contador de Vida</label>
+                        <label for="mode-life">Contador de Vida</label>
                     </div>
                     <div class="option-item">
                         <input type="radio" id="mode-both" name="display-mode" value="both" checked>
-                        <label for="mode-both">Cronómetro + Vida</label>
+                        <label for="mode-both">Cronómetro + Contador de Vida</label>
                     </div>
                 </div>
                 
@@ -730,7 +730,7 @@
             
             <div class="config-btn-group">
                 <button class="apply-btn" onclick="applyDisplaySettings()">Aplicar</button>
-                <button class="cancel-btn" onclick="hideConfig()">Cancelar</button>
+                <button class="warning-btn" onclick="hideConfig()">ATRAS</button>
             </div>
         </div>
         
@@ -765,7 +765,7 @@
             <div class="config-btn-group">
                 <button class="apply-btn" onclick="updateAbilities()">Aplicar</button>
                 <button class="reset-btn" onclick="resetAbilities()">Reset</button>
-                <button class="cancel-btn" onclick="hideConfig()">Cancelar</button>
+                <button class="warning-btn" onclick="hideConfig()">Atras</button>
             </div>
         </div>
     </div>
@@ -1132,10 +1132,10 @@
                 
                 // Actualizar texto y clase del botón
                 if (currentPlayer === 1) {
-                    turnBtn.innerHTML = '<span class="turn-arrow">↑</span><span>TURNO ROJO</span><span class="turn-arrow">↑</span>';
+                    turnBtn.innerHTML = '<span class="turn-arrow"></span><span>↑ TURNO ROJO ↑</span><span class="turn-arrow"></span>';
                     turnBtn.className = 'turn-btn player1-turn';
                 } else {
-                    turnBtn.innerHTML = '<span class="turn-arrow">↓</span><span>TURNO MORADO</span><span class="turn-arrow">↓</span>';
+                    turnBtn.innerHTML = '<span class="turn-arrow"></span><span>↓ TURNO MORADO ↓</span><span class="turn-arrow"></span>';
                     turnBtn.className = 'turn-btn player2-turn';
                 }
                 
