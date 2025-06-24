@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>POKEMON TCG TIMER</title>
     <style>
         :root {
@@ -20,12 +20,15 @@
             font-family: 'Montserrat', 'Comic Sans MS', 'Comic Sans', cursive, 'Arial', sans-serif;
             font-size: 1.25rem;
             touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             background: #000;
+            position: fixed;
         }
         
         .player-section {
@@ -68,6 +71,7 @@
             color: white;
             text-shadow: 0 0 10px rgba(0,0,0,0.5);
             margin: 20px 0;
+            user-select: none;
         }
         
         /* Marcadores de habilidades */
@@ -321,32 +325,163 @@
         }
         
         /* Responsive adjustments */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .time-display {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
             
             .ability-button {
-                min-width: 150px;
+                min-width: 140px;
                 height: 55px;
                 font-size: 1rem;
             }
             
             .ability-button.main-marker {
-                min-width: 220px;
+                min-width: 200px;
                 height: 60px;
+                font-size: 1.1rem;
             }
             
+            /* Ajustar posiciones para pantallas más pequeñas */
+            .player1 .ability-button.main-marker { top: 12%; }
+            .player1 .ability-button:nth-child(2) { top: 25%; left: 5%; }
+            .player1 .ability-button:nth-child(3) { top: 25%; right: 5%; }
+            .player1 .ability-button:nth-child(4) { top: 45%; left: 3%; }
+            .player1 .ability-button:nth-child(5) { top: 45%; right: 3%; }
+            .player1 .ability-button:nth-child(6) { top: 65%; left: 5%; }
+            .player1 .ability-button:nth-child(7) { top: 65%; right: 5%; }
+            
+            .player2 .ability-button.main-marker { bottom: 12%; }
+            .player2 .ability-button:nth-child(2) { bottom: 25%; left: 5%; }
+            .player2 .ability-button:nth-child(3) { bottom: 25%; right: 5%; }
+            .player2 .ability-button:nth-child(4) { bottom: 45%; left: 3%; }
+            .player2 .ability-button:nth-child(5) { bottom: 45%; right: 3%; }
+            .player2 .ability-button:nth-child(6) { bottom: 65%; left: 5%; }
+            .player2 .ability-button:nth-child(7) { bottom: 65%; right: 5%; }
+        }
+        
+        @media (max-width: 480px) {
+            .time-display {
+                font-size: 3rem;
+                margin: 15px 0;
+            }
+            
+            .ability-button {
+                min-width: 120px;
+                height: 50px;
+                font-size: 0.9rem;
+                padding: 0 12px;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 180px;
+                height: 55px;
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            
+            /* Ajustar más las posiciones para móviles pequeños */
+            .player1 .ability-button.main-marker { top: 10%; }
+            .player1 .ability-button:nth-child(2) { top: 22%; left: 3%; }
+            .player1 .ability-button:nth-child(3) { top: 22%; right: 3%; }
+            .player1 .ability-button:nth-child(4) { top: 42%; left: 2%; }
+            .player1 .ability-button:nth-child(5) { top: 42%; right: 2%; }
+            .player1 .ability-button:nth-child(6) { top: 62%; left: 3%; }
+            .player1 .ability-button:nth-child(7) { top: 62%; right: 3%; }
+            
+            .player2 .ability-button.main-marker { bottom: 10%; }
+            .player2 .ability-button:nth-child(2) { bottom: 22%; left: 3%; }
+            .player2 .ability-button:nth-child(3) { bottom: 22%; right: 3%; }
+            .player2 .ability-button:nth-child(4) { bottom: 42%; left: 2%; }
+            .player2 .ability-button:nth-child(5) { bottom: 42%; right: 2%; }
+            .player2 .ability-button:nth-child(6) { bottom: 62%; left: 3%; }
+            .player2 .ability-button:nth-child(7) { bottom: 62%; right: 3%; }
+            
             .turn-btn {
-                width: 85%;
-                left: 7.5%;
-                right: 7.5%;
                 height: 50px;
                 font-size: 1.3rem;
             }
             
-            .config-panel {
-                width: 95%;
+            .control-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .time-display {
+                font-size: 2.5rem;
+            }
+            
+            .ability-button {
+                min-width: 110px;
+                height: 45px;
+                font-size: 0.8rem;
+            }
+            
+            .ability-button.main-marker {
+                min-width: 160px;
+                height: 50px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Orientación horizontal - solo ajustes necesarios */
+        @media (orientation: landscape) {
+            .player-section {
+                height: 100vh;
+                width: 50vw;
+                float: left;
+            }
+            
+            .player1 {
+                transform: rotate(0);
+            }
+            
+            .player1 .time-display,
+            .player1 .ability-button,
+            .player1 .player-content {
+                transform: rotate(0);
+            }
+            
+            .player-content {
+                transform: rotate(0);
+            }
+            
+            /* Reajustar posiciones de botones en horizontal */
+            .player1 .ability-button.main-marker { top: 15%; left: 50%; transform: translateX(-50%); }
+            .player1 .ability-button:nth-child(2) { top: 30%; left: 8%; }
+            .player1 .ability-button:nth-child(3) { top: 30%; right: 8%; }
+            .player1 .ability-button:nth-child(4) { top: 50%; left: 5%; }
+            .player1 .ability-button:nth-child(5) { top: 50%; right: 5%; }
+            .player1 .ability-button:nth-child(6) { top: 70%; left: 8%; }
+            .player1 .ability-button:nth-child(7) { top: 70%; right: 8%; }
+            
+            .turn-btn {
+                left: 50%;
+                bottom: 10px;
+                transform: translateX(-50%);
+                width: 60%;
+                max-width: 300px;
+            }
+            
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .start-btn, .stop-btn {
+                bottom: 15px;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .config-btn {
+                top: 15px;
+                right: 15px;
             }
         }
     </style>
@@ -361,7 +496,6 @@
         
         <!-- Controles flotantes Jugador 1 -->
         <button class="control-btn start-btn" id="start-btn" onclick="toggleTimer()">▶</button>
-
     </div>
     
     <!-- Jugador 2 (Parte inferior) -->
@@ -452,6 +586,11 @@
             updateDisplay();
             createAbilityMarkers();
             updateTurnIndicator();
+            
+            // Prevenir zoom en dispositivos móviles
+            document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+            });
         });
         
         // Funciones de temporizador
@@ -594,10 +733,10 @@
                 });
                 
                 // Agregar eventos táctiles para dispositivos móviles
-                button.addEventListener('touchend', function(e) {
+                button.addEventListener('touchstart', function(e) {
                     e.preventDefault();
                     toggleMarker(this);
-                });
+                }, { passive: false });
                 
                 markersContainer.appendChild(button);
             });
@@ -800,7 +939,7 @@
             if (e.touches.length > 1) {
                 e.preventDefault();
             }
-        });
+        }, { passive: false });
         
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function(e) {
