@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TCG - MARKO</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
             --player1-color: #860202;
@@ -15,33 +15,16 @@
             --green-state: #1302ff;
             --red-state: #f44336;
         }
-        html, body {
-            height: 100%;
-            min-height: 100%;
-            width: 100%;
-            min-width: 100%;
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
+        
         body {
             background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
             height: 100vh;
-            min-height: 100vh;
-            width: 100vw;
-            min-width: 100vw;
-            max-width: 100vw;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            overflow: hidden;
+            touch-action: manipulation;
         }
+
         .player-section {
-            flex: 1 1 0;
+            flex: 1;
             min-height: 0;
             position: relative;
             overflow: hidden;
@@ -50,40 +33,38 @@
             flex-direction: column;
             justify-content: center;
         }
+
         .player1 {
             background: var(--player1-color);
             transform: rotate(180deg);
         }
+
         .player2 {
             background: var(--player2-color);
         }
+
         .player-section.active-turn {
             box-shadow: inset 0 0 0 4px var(--accent-color);
             animation: pulse-turn 2s infinite;
         }
+
         @keyframes pulse-turn {
             0% { box-shadow: inset 0 0 0 4px var(--accent-color); }
             50% { box-shadow: inset 0 0 0 8px var(--accent-color); }
             100% { box-shadow: inset 0 0 0 4px var(--accent-color); }
         }
-        .player1 .player-content,
-        .player2 .player-content {
-            height: 90%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            align-items: center;
-        }
+
         .display-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 50%;
+            height: 100%;
+            padding: 10px;
         }
+
         .life-display {
-            font-size: 6rem;
+            font-size: 4rem;
             text-align: center;
             font-family: 'Digital', monospace;
             font-weight: bold;
@@ -93,23 +74,38 @@
             user-select: none;
             line-height: 1;
         }
+
+        @media (min-width: 768px) {
+            .life-display {
+                font-size: 6rem;
+            }
+        }
+
         .life-display.with-timer {
-            font-size: 4.5rem;
+            font-size: 3rem;
             margin-bottom: 5px;
         }
+
+        @media (min-width: 768px) {
+            .life-display.with-timer {
+                font-size: 4.5rem;
+            }
+        }
+
         .life-controls {
             display: flex;
-            gap: 20px;
+            gap: 10px;
             margin-top: 10px;
         }
+
         .life-btn {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 3px solid white;
             background: rgba(255,255,255,0.9);
             color: #000;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -118,37 +114,64 @@
             transition: all 0.2s ease;
             box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         }
+
+        @media (min-width: 768px) {
+            .life-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+        }
+
         .life-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 5px 12px rgba(0,0,0,0.4);
         }
+
         .life-btn:active {
             transform: scale(0.95);
         }
+
         .life-btn.decrease {
             background: var(--red-state);
             color: white;
         }
+
         .life-btn.increase {
             background: var(--green-state);
             color: white;
         }
+
         .time-display {
-            font-size: 4rem;
+            font-size: 2.5rem;
             text-align: center;
             font-family: 'Digital', monospace;
             font-weight: bold;
             color: white;
             text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            margin: 20px 0;
+            margin: 10px 0;
             user-select: none;
             line-height: 1;
         }
+
+        @media (min-width: 768px) {
+            .time-display {
+                font-size: 4rem;
+            }
+        }
+
         .time-display.with-life {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             margin: 10px 0 5px 0;
             opacity: 0.9;
         }
+
+        @media (min-width: 768px) {
+            .time-display.with-life {
+                font-size: 2.5rem;
+            }
+        }
+
         .ability-markers {
             position: absolute;
             top: 0;
@@ -156,16 +179,18 @@
             right: 0;
             bottom: 0;
             pointer-events: none;
+            padding: 10px;
         }
+
         .ability-button {
             position: absolute;
-            min-width: 12%;
-            height: 11%;
+            min-width: 80px;
+            height: 40px;
             border-radius: 20px;
             border: 2px solid var(--accent-color);
             background: linear-gradient(135deg, var(--green-state) 60%, #2e8bff 100%);
             color: #fff;
-            font-size: 1.05rem;
+            font-size: 0.9rem;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -178,62 +203,109 @@
             pointer-events: auto;
             text-shadow: 0 2px 6px rgba(0,0,0,0.25);
             box-shadow: 0 4px 16px rgba(0,0,0,0.25), 0 1.5px 0 var(--accent-color) inset;
-            padding: 0 8%;
+            padding: 0 10px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             outline: none;
         }
+
+        @media (min-width: 768px) {
+            .ability-button {
+                min-width: 12%;
+                height: 11%;
+                font-size: 1.05rem;
+                padding: 0 8%;
+            }
+        }
+
         .ability-button:active {
             background: linear-gradient(135deg, #1a1a1a 60%, var(--green-state) 100%);
             transform: scale(0.97);
             box-shadow: 0 2px 8px rgba(0,0,0,0.18);
         }
+
         .ability-button:focus {
             box-shadow: 0 0 0 3px var(--accent-color), 0 4px 16px rgba(0,0,0,0.25);
         }
+
         .ability-button.main-marker {
             min-width: 80%;
-            height: 10%;
+            height: 40px;
             font-size: 1rem;
             padding: 0 20%;
             border: #fbff00;
         }
+
+        @media (min-width: 768px) {
+            .ability-button.main-marker {
+                height: 10%;
+            }
+        }
+
         .player1 .ability-button.main-marker {
             transform: translateX(-50%);
         }
+
         .ability-button.used {
             background: var(--red-state);
         }
+
         .ability-button:hover {
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
             transform: scale(1.05);
         }
+
         .player1 .ability-button.main-marker:hover,
         .player2 .ability-button.main-marker:hover {
             transform: translateX(-50%) scale(1.05);
         }
+
+        /* Posiciones de los botones para móvil */
         .player1 .ability-button.main-marker { top: 80%; left: 50%; }
-        .player1 .ability-button:nth-child(2) { top: 30%; left: 6%; }
-        .player1 .ability-button:nth-child(3) { top: 30%; right: 6%; }
-        .player1 .ability-button:nth-child(4) { top: 50%; left: 4%; }
-        .player1 .ability-button:nth-child(5) { top: 50%; right: 4%; }
-        .player1 .ability-button:nth-child(6) { top: 68%; left: 6%; }
-        .player1 .ability-button:nth-child(7) { top: 68%; right: 6%; }
-        .player1 .ability-button:nth-child(8) { top: 68%; left: 50%; transform: translateX(-50%); }
+        .player1 .ability-button:nth-child(2) { top: 15%; left: 5%; }
+        .player1 .ability-button:nth-child(3) { top: 15%; right: 5%; }
+        .player1 .ability-button:nth-child(4) { top: 35%; left: 5%; }
+        .player1 .ability-button:nth-child(5) { top: 35%; right: 5%; }
+        .player1 .ability-button:nth-child(6) { top: 55%; left: 5%; }
+        .player1 .ability-button:nth-child(7) { top: 55%; right: 5%; }
+        .player1 .ability-button:nth-child(8) { top: 75%; left: 50%; transform: translateX(-50%); }
+
         .player2 .ability-button.main-marker { bottom: 8%; left: 50%; transform: translateX(-50%); }
-        .player2 .ability-button:nth-child(2) { bottom: 60%; left: 6%; }
-        .player2 .ability-button:nth-child(3) { bottom: 60%; right: 6%; }
-        .player2 .ability-button:nth-child(4) { bottom: 40%; left: 4%; }
-        .player2 .ability-button:nth-child(5) { bottom: 40%; right: 4%; }
-        .player2 .ability-button:nth-child(6) { bottom: 20%; left: 6%; }
-        .player2 .ability-button:nth-child(7) { bottom: 20%; right: 6%; }
-        .player2 .ability-button:nth-child(8) { bottom: 10%; left: 50%; transform: translateX(-50%); }
+        .player2 .ability-button:nth-child(2) { bottom: 65%; left: 5%; }
+        .player2 .ability-button:nth-child(3) { bottom: 65%; right: 5%; }
+        .player2 .ability-button:nth-child(4) { bottom: 45%; left: 5%; }
+        .player2 .ability-button:nth-child(5) { bottom: 45%; right: 5%; }
+        .player2 .ability-button:nth-child(6) { bottom: 25%; left: 5%; }
+        .player2 .ability-button:nth-child(7) { bottom: 25%; right: 5%; }
+        .player2 .ability-button:nth-child(8) { bottom: 15%; left: 50%; transform: translateX(-50%); }
+
+        /* Posiciones de los botones para desktop */
+        @media (min-width: 768px) {
+            .player1 .ability-button.main-marker { top: 80%; left: 50%; }
+            .player1 .ability-button:nth-child(2) { top: 30%; left: 6%; }
+            .player1 .ability-button:nth-child(3) { top: 30%; right: 6%; }
+            .player1 .ability-button:nth-child(4) { top: 50%; left: 4%; }
+            .player1 .ability-button:nth-child(5) { top: 50%; right: 4%; }
+            .player1 .ability-button:nth-child(6) { top: 68%; left: 6%; }
+            .player1 .ability-button:nth-child(7) { top: 68%; right: 6%; }
+            .player1 .ability-button:nth-child(8) { top: 68%; left: 50%; transform: translateX(-50%); }
+
+            .player2 .ability-button.main-marker { bottom: 8%; left: 50%; transform: translateX(-50%); }
+            .player2 .ability-button:nth-child(2) { bottom: 60%; left: 6%; }
+            .player2 .ability-button:nth-child(3) { bottom: 60%; right: 6%; }
+            .player2 .ability-button:nth-child(4) { bottom: 40%; left: 4%; }
+            .player2 .ability-button:nth-child(5) { bottom: 40%; right: 4%; }
+            .player2 .ability-button:nth-child(6) { bottom: 20%; left: 6%; }
+            .player2 .ability-button:nth-child(7) { bottom: 20%; right: 6%; }
+            .player2 .ability-button:nth-child(8) { bottom: 10%; left: 50%; transform: translateX(-50%); }
+        }
+
         /* Controles flotantes */
         .control-btn {
             position: fixed;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: none;
             background: linear-gradient(135deg, #fffbe7 70%, #e6e6e6 100%);
@@ -247,65 +319,53 @@
             transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
             outline: none;
         }
+
         .control-btn:hover {
             box-shadow: 0 4px 16px rgba(0,0,0,0.28);
             transform: scale(1.08);
             background: linear-gradient(135deg, #fffbe7 60%, #ffe066 100%);
         }
+
         .control-btn:active {
             transform: scale(0.96);
             background: linear-gradient(135deg, #f5e9b8 70%, #e6e6e6 100%);
         }
+
         .start-btn {
             bottom: 40%;
             right: 12px;
             background: #4CAF50;
             color: rgb(255, 255, 255);
-            width: 30px;
-            height: 30px;
-            font-size: 1rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
         }
+
         .config-btn {
             top: 44%;
             left: 12px;
             transform: translateY(-50%);
-            width: 30px;
-            height: 30px;
-            font-size: 1rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
         }
+
         .stop-btn {
             bottom: 60%;
             right: 12px;
             background: #f44336;
             color: white;
-            width: 30px;
-            height: 30px;
-            font-size: 1rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
         }
+
         .pause-btn {
             bottom: 40%;
             right: 12px;
             background: #ff9800;
             color: rgb(21, 250, 0);
-            width: 30px;
-            height: 30px;
-            font-size: 1rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
         }
+
         .final-stop-btn {
             bottom: 40%;
             left: 12px;
             background: #f44336;
             color: white;
-            width: 30px;
-            height: 30px;
-            font-size: 1rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
         }
-        /* Cambiado: Botón de cambio de turno centrado en la pantalla */
+
+        /* Botón de cambio de turno */
         .turn-btn {
             position: fixed;
             top: 50%;
@@ -314,11 +374,11 @@
             width: 80vw;
             max-width: 400px;
             height: 60px;
-            border-radius: 30px 30px 30px 30px;
+            border-radius: 30px;
             background: var(--accent-color);
             color: #000;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             z-index: 20;
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             border: none;
@@ -329,17 +389,33 @@
             justify-content: center;
             gap: 10px;
         }
+
+        @media (min-width: 768px) {
+            .turn-btn {
+                font-size: 1.5rem;
+            }
+        }
+
         .turn-btn:hover {
             transform: translate(-50%, -50%);
             box-shadow: 0 7px 20px rgba(0,0,0,0.5);
         }
+
         .turn-arrow {
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: transform 0.3s ease;
         }
+
+        @media (min-width: 768px) {
+            .turn-arrow {
+                font-size: 1.2rem;
+            }
+        }
+
         .turn-btn.player1-turn .turn-arrow {
             transform: rotate(180deg);
         }
+
         /* Panel de configuración */
         .config-panel {
             position: fixed;
@@ -347,26 +423,25 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0,0,0,0.97);
-            padding: 20px 10px;
+            padding: 20px;
             border-radius: 16px;
-            width: 96vw;
+            width: 90vw;
             max-width: 420px;
-            max-height: 92vh;
-            min-width: 260px;
+            max-height: 80vh;
             z-index: 30;
             display: none;
             color: white;
-            text-align: center;
             overflow-y: auto;
             border: 2px solid rgba(255,255,255,0.2);
-            box-sizing: border-box;
         }
+
         .config-tabs {
             display: flex;
             margin-bottom: 20px;
             border-radius: 8px;
             overflow: hidden;
         }
+
         .config-tab {
             flex: 1;
             padding: 10px;
@@ -376,32 +451,20 @@
             cursor: pointer;
             transition: background 0.3s;
         }
+
         .config-tab.active {
             background: var(--accent-color);
             color: #000000ad;
         }
+
         .config-content {
             display: none;
         }
+
         .config-content.active {
             display: block;
         }
-        .player-config {
-            display: none;
-        }
-        .player-config.active {
-            display: block;
-        }
-        .config-input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: none;
-            font-size: 1rem;
-            text-align: center;
-            box-sizing: border-box;
-        }
+
         .display-options {
             background: rgba(255,255,255,0.1);
             padding: 15px;
@@ -409,33 +472,12 @@
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.2);
         }
+
         .display-options h4 {
             margin-bottom: 15px;
             color: var(--accent-color);
         }
-        .option-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .option-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 6px;
-        }
-        .option-item input[type="radio"] {
-            width: 18px;
-            height: 18px;
-        }
-        .option-item label {
-            flex: 1;
-            text-align: left;
-            cursor: pointer;
-        }
+
         .markers-config {
             background: rgba(255,255,255,0.1);
             padding: 15px;
@@ -443,248 +485,182 @@
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.2);
         }
+
         .markers-config h4 {
             margin-bottom: 15px;
             color: var(--accent-color);
         }
-        .marker-input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-        .marker-input {
-            flex: 1;
-            padding: 8px;
-            border-radius: 6px;
-            border: none;
-            font-size: 0.9rem;
-        }
-        .add-marker-btn {
-            background: var(--green-state);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        .add-marker-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-        }
-        .marker-list {
-            margin-top: 10px;
-        }
-        .marker-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 5px 10px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            margin-bottom: 5px;
-        }
-        .remove-marker-btn {
-            background: var(--red-state);
-            color: white;
-            border: none;
-            padding: 2px 6px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
+
         .marker-counter {
             color: var(--accent-color);
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
-        .config-btn-group {
+
+        .marker-item {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            margin-bottom: 8px;
         }
-        .config-btn-group button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .apply-btn {
-            background: var(--green-state);
-            color: white;
-        }
-        .cancel-btn {
+
+        .remove-marker-btn {
             background: var(--red-state);
             color: white;
+            border: none;
+            padding: 2px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
         }
-        .reset-btn {
-            background: #666;
-            color: white;
-        }
-        /* Bootstrap overrides for better mobile look */
-        @media (max-width: 576px) {
-            .life-display {
-                font-size: 3.2rem;
-            }
-            .life-display.with-timer {
-                font-size: 2.2rem;
-            }
-            .time-display {
-                font-size: 2.2rem;
-            }
-            .time-display.with-life {
-                font-size: 1.2rem;
-            }
-            .turn-btn {
-                height: 44px;
-                font-size: 1.1rem;
-                max-width: 95vw;
-            }
-            .config-panel {
-                padding: 8px 2px;
-                min-width: 0;
-                width: 99vw;
-                max-width: 99vw;
-            }
-            .player1 .player-content,
-            .player2 .player-content {
-                height: 98%;
-            }
-            .life-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 1.2rem;
-            }
+
+        /* Prevenir zoom en móviles */
+        html {
+            touch-action: manipulation;
         }
     </style>
 </head>
-<body class="container-fluid p-0">
+<body class="d-flex flex-column">
     <!-- Jugador 1 (Rojo, arriba, rotado) -->
-    <div class="player-section player1 row m-0">
-        <div class="player-content col-12">
-            <div class="display-container w-100">
+    <div class="player-section player1">
+        <div class="player-content h-100 d-flex flex-column justify-content-center">
+            <div class="display-container">
                 <div id="life1-display" class="life-display">20</div>
-                <div id="life1-controls" class="life-controls justify-content-center">
+                <div id="life1-controls" class="life-controls">
                     <button class="life-btn decrease" onclick="changeLife(1, -1)">-</button>
                     <button class="life-btn increase" onclick="changeLife(1, 1)">+</button>
                 </div>
                 <div id="time1-display" class="time-display">25:00</div>
             </div>
+            
             <!-- Marcadores de habilidades -->
             <div class="ability-markers" id="markers1">
                 <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
             </div>
         </div>
     </div>
+    
     <!-- Jugador 2 (Azul, abajo) -->
-    <div class="player-section player2 row m-0">
-        <div class="player-content col-12">
-            <div class="display-container w-100">
+    <div class="player-section player2">
+        <div class="player-content h-100 d-flex flex-column justify-content-center">
+            <div class="display-container">
                 <div id="life2-display" class="life-display">20</div>
-                <div id="life2-controls" class="life-controls justify-content-center">
+                <div id="life2-controls" class="life-controls">
                     <button class="life-btn decrease" onclick="changeLife(2, -1)">-</button>
                     <button class="life-btn increase" onclick="changeLife(2, 1)">+</button>
                 </div>
                 <div id="time2-display" class="time-display">25:00</div>
             </div>
+            
             <!-- Marcadores de habilidades -->
             <div class="ability-markers" id="markers2">
                 <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
             </div>
         </div>
     </div>
+    
     <!-- Controles flotantes -->
     <button id="startBtn" class="control-btn start-btn" onclick="startTimer()">▶</button>
     <button id="pauseBtn" class="control-btn pause-btn" onclick="pauseTimer()" style="display: none;">⏸</button>
     <button id="finalStopBtn" class="control-btn final-stop-btn" onclick="resetTimer()" style="display: none;">⏹</button>
     <button class="control-btn config-btn" onclick="showConfig()">⚙</button>
+    
     <!-- Botón de cambio de turno -->
     <button id="turnBtn" class="turn-btn" onclick="switchTurn()">
         <span class="turn-arrow"></span>
         <span>↑ROJO↑</span>
         <span class="turn-arrow"></span>
     </button>
-    <!-- Panel de configuración -->
+    
+    <!-- Panel de configuración (Modal de Bootstrap) -->
     <div id="configPanel" class="config-panel">
         <div class="config-tabs">
             <button class="config-tab active" onclick="showTab(event, 'timer')">Tiempo</button>
             <button class="config-tab" onclick="showTab(event, 'display')">+</button>
             <button class="config-tab" onclick="showTab(event, 'markers')">Botones</button>
         </div>
+        
         <!-- Configuración del cronómetro -->
         <div id="timer-config" class="config-content active">
-            <h3>Cuenta Atras "Minutos"</h3>
-            <input type="number" id="timerMinutes" class="config-input form-control" placeholder="Minutos por jugador" value="25" min="1" max="120">
-            <div class="config-btn-group">
-                <button class="apply-btn btn btn-primary" onclick="applyTimerSettings()">Aplicar</button>
-                <button class="reset-btn btn btn-secondary" onclick="resetTimer()">Reset</button>
+            <h3 class="text-center mb-3">Cuenta Atras "Minutos"</h3>
+            <input type="number" id="timerMinutes" class="form-control mb-3 text-center" placeholder="Minutos por jugador" value="25" min="1" max="120">
+            <div class="d-flex gap-2">
+                <button class="btn btn-success flex-grow-1" onclick="applyTimerSettings()">Aplicar</button>
+                <button class="btn btn-secondary flex-grow-1" onclick="resetTimer()">Reset</button>
             </div>
         </div>
+        
         <!-- Configuración de pantalla -->
         <div id="display-config" class="config-content">
-            <h3>Configuración de Pantalla</h3>
+            <h3 class="text-center mb-3">Configuración de Pantalla</h3>
+            
             <div class="display-options">
                 <h4>Modo de Visualización</h4>
-                <div class="option-group">
-                    <div class="option-item">
-                        <input type="radio" id="mode-timer" name="display-mode" value="timer">
-                        <label for="mode-timer">Solo Cronómetro</label>
-                    </div>
-                    <div class="option-item">
-                        <input type="radio" id="mode-life" name="display-mode" value="life">
-                        <label for="mode-life">Solo Contador de Vida</label>
-                    </div>
-                    <div class="option-item">
-                        <input type="radio" id="mode-both" name="display-mode" value="both" checked>
-                        <label for="mode-both">Cronómetro + Vida</label>
-                    </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="mode-timer" name="display-mode" value="timer">
+                    <label class="form-check-label" for="mode-timer">Solo Cronómetro</label>
                 </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="mode-life" name="display-mode" value="life">
+                    <label class="form-check-label" for="mode-life">Solo Contador de Vida</label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" id="mode-both" name="display-mode" value="both" checked>
+                    <label class="form-check-label" for="mode-both">Cronómetro + Vida</label>
+                </div>
+                
                 <h4>Vida Inicial</h4>
-                <input type="number" id="initial-life" class="config-input form-control" placeholder="Vida inicial" value="20" min="1" max="999">
+                <input type="number" id="initial-life" class="form-control text-center" placeholder="Vida inicial" value="20" min="1" max="999">
             </div>
-            <div class="config-btn-group">
-                <button class="apply-btn btn btn-primary" onclick="applyDisplaySettings()">Aplicar</button>
-                <button class="cancel-btn btn btn-danger" onclick="hideConfig()">ATRAS</button>
+            
+            <div class="d-flex gap-2">
+                <button class="btn btn-success flex-grow-1" onclick="applyDisplaySettings()">Aplicar</button>
+                <button class="btn btn-danger flex-grow-1" onclick="hideConfig()">ATRAS</button>
             </div>
         </div>
+        
         <!-- Configuración de marcadores -->
         <div id="markers-config" class="config-content">
-            <h3>Configuración de Marcadores</h3>
+            <h3 class="text-center mb-3">Configuración de Marcadores</h3>
+            
             <!-- Marcadores Jugador 1 -->
             <div class="markers-config">
                 <h4>Jugador Rojo</h4>
-                <input type="text" id="main-ability1" class="config-input form-control" placeholder="Marcador principal" value="TRAINER">
+                <input type="text" id="main-ability1" class="form-control mb-2 text-center" placeholder="Marcador principal" value="TRAINER">
                 <div class="marker-counter" id="ability-counter1">Marcadores adicionales: 0/6</div>
-                <div class="marker-input-group">
-                    <input type="text" id="new-ability1" class="marker-input form-control" placeholder="Nuevo marcador">
-                    <button id="add-btn1" class="add-marker-btn btn btn-success" onclick="addAdditionalMarker(1)">+</button>
+                <div class="input-group mb-2">
+                    <input type="text" id="new-ability1" class="form-control" placeholder="Nuevo marcador">
+                    <button id="add-btn1" class="btn btn-primary" onclick="addAdditionalMarker(1)">+</button>
                 </div>
                 <div id="additional-markers1" class="marker-list"></div>
             </div>
+            
             <!-- Marcadores Jugador 2 -->
             <div class="markers-config">
                 <h4>Jugador Morado</h4>
-                <input type="text" id="main-ability2" class="config-input form-control" placeholder="Marcador principal" value="TRAINER">
+                <input type="text" id="main-ability2" class="form-control mb-2 text-center" placeholder="Marcador principal" value="TRAINER">
                 <div class="marker-counter" id="ability-counter2">Marcadores adicionales: 0/6</div>
-                <div class="marker-input-group">
-                    <input type="text" id="new-ability2" class="marker-input form-control" placeholder="Nuevo marcador">
-                    <button id="add-btn2" class="add-marker-btn btn btn-success" onclick="addAdditionalMarker(2)">+</button>
+                <div class="input-group mb-2">
+                    <input type="text" id="new-ability2" class="form-control" placeholder="Nuevo marcador">
+                    <button id="add-btn2" class="btn btn-primary" onclick="addAdditionalMarker(2)">+</button>
                 </div>
                 <div id="additional-markers2" class="marker-list"></div>
             </div>
-            <div class="config-btn-group">
-                <button class="apply-btn btn btn-primary" onclick="updateAbilities()">Aplicar</button>
-                <button class="reset-btn btn btn-secondary" onclick="resetAbilities()">Reset</button>
-                <button class="cancel-btn btn btn-danger" onclick="hideConfig()">ATRAS</button>
+            
+            <div class="d-flex gap-2">
+                <button class="btn btn-success flex-grow-1" onclick="updateAbilities()">Aplicar</button>
+                <button class="btn btn-secondary flex-grow-1" onclick="resetAbilities()">Reset</button>
+                <button class="btn btn-danger flex-grow-1" onclick="hideConfig()">ATRAS</button>
             </div>
         </div>
     </div>
-    <!-- Bootstrap JS (for modal, etc, if needed) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         // Variables globales
         let timer1 = 25 * 60; // 25 minutos en segundos
@@ -695,11 +671,13 @@
         let timerInterval = null;
         let currentPlayer = 1; // 1 para jugador 1, 2 para jugador 2
         let displayMode = 'both'; // 'timer', 'life', 'both'
+        
         // Configuración de marcadores
         let player1Abilities = ['GX/EX/V'];
         let player2Abilities = ['GX/EX/V'];
         let additionalAbilities1 = [];
         let additionalAbilities2 = [];
+        
         // Cargar configuración al inicio
         window.onload = function() {
             loadConfig();
@@ -708,43 +686,69 @@
             createAbilityMarkers();
             updateAdditionalMarkersConfig(1);
             updateAdditionalMarkersConfig(2);
+            
             // Configurar indicador de turno inicial
             document.querySelector('.player1').classList.add('active-turn');
+            
+            // Prevenir zoom en móviles
+            document.addEventListener('touchstart', function(e) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(e) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
         };
+        
         // Funciones de configuración
         function showConfig() {
             document.getElementById('configPanel').style.display = 'block';
             loadMarkersConfig();
         }
+        
         function hideConfig() {
             document.getElementById('configPanel').style.display = 'none';
         }
+        
         function showTab(event, tabName) {
             // Ocultar todos los contenidos
             const contents = document.querySelectorAll('.config-content');
             contents.forEach(content => content.classList.remove('active'));
+            
             // Ocultar todas las pestañas activas
             const tabs = document.querySelectorAll('.config-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
+            
             // Mostrar el contenido seleccionado
             document.getElementById(`${tabName}-config`).classList.add('active');
             event.target.classList.add('active');
         }
+        
         // Alternar marcador de habilidad
         function toggleAbility(button) {
             button.classList.toggle('used');
         }
+        
         // Crear marcadores de habilidades
         function createAbilityMarkers() {
             // Marcadores Jugador 1
             const markers1 = document.getElementById('markers1');
             markers1.innerHTML = '';
+            
             // Marcador principal
             const mainMarker1 = document.createElement('button');
             mainMarker1.className = 'ability-button main-marker';
             mainMarker1.textContent = player1Abilities[0];
             mainMarker1.onclick = () => toggleAbility(mainMarker1);
             markers1.appendChild(mainMarker1);
+            
             // Marcadores adicionales
             additionalAbilities1.forEach((ability, index) => {
                 const marker = document.createElement('button');
@@ -753,15 +757,18 @@
                 marker.onclick = () => toggleAbility(marker);
                 markers1.appendChild(marker);
             });
+            
             // Marcadores Jugador 2
             const markers2 = document.getElementById('markers2');
             markers2.innerHTML = '';
+            
             // Marcador principal
             const mainMarker2 = document.createElement('button');
             mainMarker2.className = 'ability-button main-marker';
             mainMarker2.textContent = player2Abilities[0];
             mainMarker2.onclick = () => toggleAbility(mainMarker2);
             markers2.appendChild(mainMarker2);
+            
             // Marcadores adicionales
             additionalAbilities2.forEach((ability, index) => {
                 const marker = document.createElement('button');
@@ -771,10 +778,12 @@
                 markers2.appendChild(marker);
             });
         }
+        
         // Agregar marcador adicional
         function addAdditionalMarker(player) {
             const input = document.getElementById(`new-ability${player}`);
             const text = input.value.trim();
+            
             if (text && text.length <= 20) {
                 if (player === 1 && additionalAbilities1.length < 6) {
                     additionalAbilities1.push(text);
@@ -789,6 +798,7 @@
                 }
             }
         }
+        
         // Eliminar marcador adicional
         function removeAdditionalMarker(player, index) {
             if (player === 1) {
@@ -800,26 +810,31 @@
             }
             createAbilityMarkers();
         }
+        
         // Actualizar configuración de marcadores adicionales
         function updateAdditionalMarkersConfig(player) {
             const container = document.getElementById(`additional-markers${player}`);
             const abilities = player === 1 ? additionalAbilities1 : additionalAbilities2;
+            
             container.innerHTML = '';
             abilities.forEach((ability, index) => {
                 const item = document.createElement('div');
                 item.className = 'marker-item';
                 item.innerHTML = `
                     <span>${ability}</span>
-                    <button class="remove-marker-btn btn btn-danger btn-sm" onclick="removeAdditionalMarker(${player}, ${index})">×</button>
+                    <button class="remove-marker-btn" onclick="removeAdditionalMarker(${player}, ${index})">×</button>
                 `;
                 container.appendChild(item);
             });
+            
             // Actualizar contador
             document.getElementById(`ability-counter${player}`).textContent = 
                 `Marcadores adicionales: ${abilities.length}/6`;
+                
             // Deshabilitar botón si se alcanza el límite
             document.getElementById(`add-btn${player}`).disabled = abilities.length >= 6;
         }
+        
         // Cargar configuración de marcadores
         function loadMarkersConfig() {
             document.getElementById('main-ability1').value = player1Abilities[0];
@@ -827,24 +842,29 @@
             updateAdditionalMarkersConfig(1);
             updateAdditionalMarkersConfig(2);
         }
+        
         // Actualizar marcadores
         function updateAbilities() {
             player1Abilities[0] = document.getElementById('main-ability1').value || 'GX/EX/V';
             player2Abilities[0] = document.getElementById('main-ability2').value || 'GX/EX/V';
+            
             createAbilityMarkers();
             saveConfig();
             hideConfig();
         }
+        
         // Resetear marcadores
         function resetAbilities() {
             player1Abilities = ['GX/EX/V'];
             player2Abilities = ['GX/EX/V'];
             additionalAbilities1 = [];
             additionalAbilities2 = [];
+            
             createAbilityMarkers();
             loadMarkersConfig();
             saveConfig();
         }
+        
         // Funciones de configuración de cronómetro
         function applyTimerSettings() {
             const minutes = parseInt(document.getElementById('timerMinutes').value) || 25;
@@ -854,28 +874,34 @@
             saveConfig();
             hideConfig();
         }
+        
         function resetTimer() {
             isRunning = false;
             if (timerInterval) {
                 clearInterval(timerInterval);
                 timerInterval = null;
             }
+            
             const minutes = parseInt(document.getElementById('timerMinutes').value) || 25;
             timer1 = minutes * 60;
             timer2 = minutes * 60;
+            
             // Resetear botones
             document.getElementById('startBtn').style.display = 'block';
             document.getElementById('pauseBtn').style.display = 'none';
             document.getElementById('finalStopBtn').style.display = 'none';
+            
             updateDisplays();
             saveConfig();
         }
+        
         // Formatear tiempo para mostrar
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
             const secs = seconds % 60;
             return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
+        
         // Actualizar displays
         function updateDisplays() {
             document.getElementById('time1-display').textContent = formatTime(timer1);
@@ -883,26 +909,32 @@
             document.getElementById('life1-display').textContent = life1;
             document.getElementById('life2-display').textContent = life2;
         }
+        
         // Aplicar configuración de pantalla
         function applyDisplaySettings() {
             const selectedMode = document.querySelector('input[name="display-mode"]:checked').value;
             const initialLife = parseInt(document.getElementById('initial-life').value) || 20;
+            
             displayMode = selectedMode;
             life1 = initialLife;
             life2 = initialLife;
+            
             // Elementos de vida
             const life1Display = document.getElementById('life1-display');
             const life2Display = document.getElementById('life2-display');
             const life1Controls = document.getElementById('life1-controls');
             const life2Controls = document.getElementById('life2-controls');
+            
             // Elementos de tiempo
             const time1Display = document.getElementById('time1-display');
             const time2Display = document.getElementById('time2-display');
+            
             // Resetear clases
             life1Display.className = 'life-display';
             life2Display.className = 'life-display';
             time1Display.className = 'time-display';
             time2Display.className = 'time-display';
+            
             switch (displayMode) {
                 case 'timer':
                     // Solo cronómetro
@@ -913,6 +945,7 @@
                     time1Display.style.display = 'block';
                     time2Display.style.display = 'block';
                     break;
+                    
                 case 'life':
                     // Solo vida
                     life1Display.style.display = 'block';
@@ -922,6 +955,7 @@
                     time1Display.style.display = 'none';
                     time2Display.style.display = 'none';
                     break;
+                    
                 case 'both':
                     // Vida y cronómetro
                     life1Display.style.display = 'block';
@@ -930,6 +964,7 @@
                     life2Controls.style.display = 'flex';
                     time1Display.style.display = 'block';
                     time2Display.style.display = 'block';
+                    
                     // Ajustar tamaños
                     life1Display.classList.add('with-timer');
                     life2Display.classList.add('with-timer');
@@ -937,9 +972,11 @@
                     time2Display.classList.add('with-life');
                     break;
             }
+            
             updateDisplays();
             saveConfig();
         }
+        
         // Cambiar vida
         function changeLife(player, change) {
             if (player === 1) {
@@ -950,6 +987,7 @@
             updateDisplays();
             saveConfig();
         }
+        
         // Iniciar cronómetro
         function startTimer() {
             if (!isRunning) {
@@ -957,6 +995,7 @@
                 document.getElementById('startBtn').style.display = 'none';
                 document.getElementById('pauseBtn').style.display = 'block';
                 document.getElementById('finalStopBtn').style.display = 'none';
+                
                 timerInterval = setInterval(() => {
                     if (currentPlayer === 1) {
                         timer1--;
@@ -977,6 +1016,7 @@
                 }, 1000);
             }
         }
+        
         // Pausar cronómetro
         function pauseTimer() {
             if (isRunning) {
@@ -990,11 +1030,13 @@
                 document.getElementById('finalStopBtn').style.display = 'block';
             }
         }
+        
         // Cambiar turno
         function switchTurn() {
             if (isRunning) {
                 currentPlayer = currentPlayer === 1 ? 2 : 1;
                 const turnBtn = document.getElementById('turnBtn');
+                
                 // Actualizar texto y clase del botón
                 if (currentPlayer === 1) {
                     turnBtn.innerHTML = '<span class="turn-arrow"></span><span>↑ROJO↑</span><span class="turn-arrow"></span>';
@@ -1003,9 +1045,11 @@
                     turnBtn.innerHTML = '<span class="turn-arrow"></span><span>↓MORADO↓</span><span class="turn-arrow"></span>';
                     turnBtn.className = 'turn-btn player2-turn';
                 }
+                
                 // Actualizar indicador visual con animación
                 const player1 = document.querySelector('.player1');
                 const player2 = document.querySelector('.player2');
+                
                 if (currentPlayer === 1) {
                     player1.classList.add('active-turn');
                     player2.classList.remove('active-turn');
@@ -1013,10 +1057,12 @@
                     player2.classList.add('active-turn');
                     player1.classList.remove('active-turn');
                 }
+                
                 // Resetear marcadores del jugador que comienza su turno
                 resetPlayerMarkers(currentPlayer);
             }
         }
+        
         // Resetear marcadores de un jugador específico
         function resetPlayerMarkers(player) {
             const playerMarkers = document.querySelectorAll(`#markers${player} .ability-button`);
@@ -1024,6 +1070,7 @@
                 marker.classList.remove('used');
             });
         }
+        
         // Funciones de almacenamiento
         function saveConfig() {
             const config = {
@@ -1040,6 +1087,7 @@
             };
             localStorage.setItem('pokemonTCGTimer', JSON.stringify(config));
         }
+        
         function loadConfig() {
             const saved = localStorage.getItem('pokemonTCGTimer');
             if (saved) {
@@ -1053,27 +1101,16 @@
                 player2Abilities = config.player2Abilities || ['GX/EX/V'];
                 additionalAbilities1 = config.additionalAbilities1 || [];
                 additionalAbilities2 = config.additionalAbilities2 || [];
+                
                 // Actualizar inputs
                 document.getElementById('timerMinutes').value = config.timerMinutes || 25;
                 document.getElementById('initial-life').value = life1;
+                
                 // Seleccionar modo de pantalla
                 document.querySelector(`input[name="display-mode"][value="${displayMode}"]`).checked = true;
             }
         }
-        // Prevenir zoom en dispositivos móviles
-        document.addEventListener('touchstart', function(e) {
-            if (e.touches.length > 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(e) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
+        
         // Spacebar para pausar/reanudar
         document.addEventListener('keydown', function(e) {
             if (e.code === 'Space') {
