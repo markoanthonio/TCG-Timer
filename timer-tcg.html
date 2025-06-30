@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>TCG - MARKO</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,11 +16,25 @@
             --red-state: #f44336;
         }
         
-        body {
-            background: #000;
-            height: 100vh;
+        html, body {
+            height: 100%;
             overflow: hidden;
             touch-action: manipulation;
+        }
+
+        body {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .player-section {
@@ -31,7 +45,6 @@
             transition: all 0.3s;
             display: flex;
             flex-direction: column;
-            justify-content: center;
         }
 
         .player1 {
@@ -54,23 +67,31 @@
             100% { box-shadow: inset 0 0 0 4px var(--accent-color); }
         }
 
+        .player-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
         .display-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
             padding: 10px;
+            flex-grow: 1;
         }
 
         .life-display {
-            font-size: 4rem;
+            font-size: 3rem;
             text-align: center;
             font-family: 'Digital', monospace;
             font-weight: bold;
             color: white;
             text-shadow: 0 0 15px rgba(0,0,0,0.7);
-            margin: 10px 0;
+            margin: 5px 0;
             user-select: none;
             line-height: 1;
         }
@@ -78,11 +99,12 @@
         @media (min-width: 768px) {
             .life-display {
                 font-size: 6rem;
+                margin: 10px 0;
             }
         }
 
         .life-display.with-timer {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 5px;
         }
 
@@ -95,17 +117,24 @@
         .life-controls {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin: 5px 0;
+        }
+
+        @media (min-width: 768px) {
+            .life-controls {
+                gap: 20px;
+                margin: 10px 0;
+            }
         }
 
         .life-btn {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: 3px solid white;
             background: rgba(255,255,255,0.9);
             color: #000;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -143,13 +172,13 @@
         }
 
         .time-display {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             text-align: center;
             font-family: 'Digital', monospace;
             font-weight: bold;
             color: white;
             text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            margin: 10px 0;
+            margin: 5px 0;
             user-select: none;
             line-height: 1;
         }
@@ -157,12 +186,13 @@
         @media (min-width: 768px) {
             .time-display {
                 font-size: 4rem;
+                margin: 10px 0;
             }
         }
 
         .time-display.with-life {
-            font-size: 1.8rem;
-            margin: 10px 0 5px 0;
+            font-size: 1.5rem;
+            margin: 5px 0;
             opacity: 0.9;
         }
 
@@ -184,22 +214,19 @@
 
         .ability-button {
             position: absolute;
-            min-width: 80px;
-            height: 40px;
+            min-width: 70px;
+            height: 35px;
             border-radius: 20px;
             border: 2px solid var(--accent-color);
             background: linear-gradient(135deg, var(--green-state) 60%, #2e8bff 100%);
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: 
-            background 0.2s, 
-            box-shadow 0.2s, 
-            transform 0.15s;
+            transition: all 0.2s;
             pointer-events: auto;
             text-shadow: 0 2px 6px rgba(0,0,0,0.25);
             box-shadow: 0 4px 16px rgba(0,0,0,0.25), 0 1.5px 0 var(--accent-color) inset;
@@ -231,15 +258,16 @@
 
         .ability-button.main-marker {
             min-width: 80%;
-            height: 40px;
-            font-size: 1rem;
-            padding: 0 20%;
-            border: #fbff00;
+            height: 35px;
+            font-size: 0.9rem;
+            padding: 0 15%;
         }
 
         @media (min-width: 768px) {
             .ability-button.main-marker {
                 height: 10%;
+                font-size: 1rem;
+                padding: 0 20%;
             }
         }
 
@@ -262,23 +290,23 @@
         }
 
         /* Posiciones de los botones para móvil */
-        .player1 .ability-button.main-marker { top: 80%; left: 50%; }
-        .player1 .ability-button:nth-child(2) { top: 15%; left: 5%; }
-        .player1 .ability-button:nth-child(3) { top: 15%; right: 5%; }
-        .player1 .ability-button:nth-child(4) { top: 35%; left: 5%; }
-        .player1 .ability-button:nth-child(5) { top: 35%; right: 5%; }
-        .player1 .ability-button:nth-child(6) { top: 55%; left: 5%; }
-        .player1 .ability-button:nth-child(7) { top: 55%; right: 5%; }
-        .player1 .ability-button:nth-child(8) { top: 75%; left: 50%; transform: translateX(-50%); }
+        .player1 .ability-button.main-marker { top: 75%; left: 50%; }
+        .player1 .ability-button:nth-child(2) { top: 10%; left: 3%; }
+        .player1 .ability-button:nth-child(3) { top: 10%; right: 3%; }
+        .player1 .ability-button:nth-child(4) { top: 30%; left: 3%; }
+        .player1 .ability-button:nth-child(5) { top: 30%; right: 3%; }
+        .player1 .ability-button:nth-child(6) { top: 50%; left: 3%; }
+        .player1 .ability-button:nth-child(7) { top: 50%; right: 3%; }
+        .player1 .ability-button:nth-child(8) { top: 70%; left: 50%; transform: translateX(-50%); }
 
-        .player2 .ability-button.main-marker { bottom: 8%; left: 50%; transform: translateX(-50%); }
-        .player2 .ability-button:nth-child(2) { bottom: 65%; left: 5%; }
-        .player2 .ability-button:nth-child(3) { bottom: 65%; right: 5%; }
-        .player2 .ability-button:nth-child(4) { bottom: 45%; left: 5%; }
-        .player2 .ability-button:nth-child(5) { bottom: 45%; right: 5%; }
-        .player2 .ability-button:nth-child(6) { bottom: 25%; left: 5%; }
-        .player2 .ability-button:nth-child(7) { bottom: 25%; right: 5%; }
-        .player2 .ability-button:nth-child(8) { bottom: 15%; left: 50%; transform: translateX(-50%); }
+        .player2 .ability-button.main-marker { bottom: 5%; left: 50%; transform: translateX(-50%); }
+        .player2 .ability-button:nth-child(2) { bottom: 60%; left: 3%; }
+        .player2 .ability-button:nth-child(3) { bottom: 60%; right: 3%; }
+        .player2 .ability-button:nth-child(4) { bottom: 40%; left: 3%; }
+        .player2 .ability-button:nth-child(5) { bottom: 40%; right: 3%; }
+        .player2 .ability-button:nth-child(6) { bottom: 20%; left: 3%; }
+        .player2 .ability-button:nth-child(7) { bottom: 20%; right: 3%; }
+        .player2 .ability-button:nth-child(8) { bottom: 10%; left: 50%; transform: translateX(-50%); }
 
         /* Posiciones de los botones para desktop */
         @media (min-width: 768px) {
@@ -316,7 +344,7 @@
             font-size: 1.1rem;
             z-index: 10;
             cursor: pointer;
-            transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
+            transition: all 0.2s;
             outline: none;
         }
 
@@ -335,7 +363,7 @@
             bottom: 40%;
             right: 12px;
             background: #4CAF50;
-            color: rgb(255, 255, 255);
+            color: white;
         }
 
         .config-btn {
@@ -373,17 +401,17 @@
             transform: translate(-50%, -50%);
             width: 80vw;
             max-width: 400px;
-            height: 60px;
+            height: 50px;
             border-radius: 30px;
             background: var(--accent-color);
             color: #000;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             z-index: 20;
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -392,6 +420,7 @@
 
         @media (min-width: 768px) {
             .turn-btn {
+                height: 60px;
                 font-size: 1.5rem;
             }
         }
@@ -403,7 +432,7 @@
 
         .turn-arrow {
             font-size: 1rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s;
         }
 
         @media (min-width: 768px) {
@@ -517,47 +546,54 @@
             font-size: 0.8rem;
         }
 
-        /* Prevenir zoom en móviles */
-        html {
-            touch-action: manipulation;
+        /* Safe area para dispositivos con notch */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
         }
     </style>
 </head>
-<body class="d-flex flex-column">
-    <!-- Jugador 1 (Rojo, arriba, rotado) -->
-    <div class="player-section player1">
-        <div class="player-content h-100 d-flex flex-column justify-content-center">
-            <div class="display-container">
-                <div id="life1-display" class="life-display">20</div>
-                <div id="life1-controls" class="life-controls">
-                    <button class="life-btn decrease" onclick="changeLife(1, -1)">-</button>
-                    <button class="life-btn increase" onclick="changeLife(1, 1)">+</button>
+<body>
+    <div class="main-container">
+        <!-- Jugador 1 (Rojo, arriba, rotado) -->
+        <div class="player-section player1">
+            <div class="player-content">
+                <div class="display-container">
+                    <div id="life1-display" class="life-display">20</div>
+                    <div id="life1-controls" class="life-controls">
+                        <button class="life-btn decrease" onclick="changeLife(1, -1)">-</button>
+                        <button class="life-btn increase" onclick="changeLife(1, 1)">+</button>
+                    </div>
+                    <div id="time1-display" class="time-display">25:00</div>
                 </div>
-                <div id="time1-display" class="time-display">25:00</div>
-            </div>
-            
-            <!-- Marcadores de habilidades -->
-            <div class="ability-markers" id="markers1">
-                <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
+                
+                <!-- Marcadores de habilidades -->
+                <div class="ability-markers" id="markers1">
+                    <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Jugador 2 (Azul, abajo) -->
-    <div class="player-section player2">
-        <div class="player-content h-100 d-flex flex-column justify-content-center">
-            <div class="display-container">
-                <div id="life2-display" class="life-display">20</div>
-                <div id="life2-controls" class="life-controls">
-                    <button class="life-btn decrease" onclick="changeLife(2, -1)">-</button>
-                    <button class="life-btn increase" onclick="changeLife(2, 1)">+</button>
+        
+        <!-- Jugador 2 (Azul, abajo) -->
+        <div class="player-section player2">
+            <div class="player-content">
+                <div class="display-container">
+                    <div id="life2-display" class="life-display">20</div>
+                    <div id="life2-controls" class="life-controls">
+                        <button class="life-btn decrease" onclick="changeLife(2, -1)">-</button>
+                        <button class="life-btn increase" onclick="changeLife(2, 1)">+</button>
+                    </div>
+                    <div id="time2-display" class="time-display">25:00</div>
                 </div>
-                <div id="time2-display" class="time-display">25:00</div>
-            </div>
-            
-            <!-- Marcadores de habilidades -->
-            <div class="ability-markers" id="markers2">
-                <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
+                
+                <!-- Marcadores de habilidades -->
+                <div class="ability-markers" id="markers2">
+                    <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
+                </div>
             </div>
         </div>
     </div>
@@ -575,7 +611,7 @@
         <span class="turn-arrow"></span>
     </button>
     
-    <!-- Panel de configuración (Modal de Bootstrap) -->
+    <!-- Panel de configuración -->
     <div id="configPanel" class="config-panel">
         <div class="config-tabs">
             <button class="config-tab active" onclick="showTab(event, 'timer')">Tiempo</button>
@@ -690,6 +726,10 @@
             // Configurar indicador de turno inicial
             document.querySelector('.player1').classList.add('active-turn');
             
+            // Ajustar layout para móviles
+            adjustLayoutForMobile();
+            window.addEventListener('resize', adjustLayoutForMobile);
+            
             // Prevenir zoom en móviles
             document.addEventListener('touchstart', function(e) {
                 if (e.touches.length > 1) {
@@ -706,6 +746,21 @@
                 lastTouchEnd = now;
             }, false);
         };
+        
+        // Ajustar layout para móviles
+        function adjustLayoutForMobile() {
+            if (window.innerWidth < 768) {
+                // Reducir aún más los tamaños si es necesario
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+                
+                // Ajustar posición de los botones inferiores
+                const player2MainMarker = document.querySelector('.player2 .ability-button.main-marker');
+                if (player2MainMarker) {
+                    player2MainMarker.style.bottom = '10px';
+                }
+            }
+        }
         
         // Funciones de configuración
         function showConfig() {
