@@ -2,816 +2,342 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TCG - MARKO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Marco López · Ingeniero Informático | Apps Móviles</title>
+    <!-- Google Fonts + Font Awesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --player1-color: #860202;
-            --player2-color: #690164;
-            --accent-color: #fbff00;
-            --green-state: #1302ff;
-            --red-state: #f44336;
-        }
-        
         * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            box-sizing: border-box;
         }
 
         body {
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            font-family: 'Digital', monospace, system-ui;
+            background: #0b0710;
+            font-family: 'Inter', sans-serif;
+            color: #f0f3fc;
+            line-height: 1.4;
+            scroll-behavior: smooth;
         }
 
-        .player-section {
-            flex: 1 1 0;
-            min-height: 0;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        :root {
+            --burdeos: #911c34;
+            --burdeos-glow: #b12a47;
+            --verde-oscuro: #0f5c3f;
+            --verde-menta: #2cae82;
+            --celeste: #4bc0d4;
+            --celeste-oscuro: #3699aa;
+            --negro-rico: #0c0a12;
+            --gris-suave: #cbd5e6;
+            --card-bg: rgba(18, 16, 28, 0.85);
         }
 
-        /* Jugador 1 rotado 180° (efecto espejo) - SIN CONTRARROTACIÓN */
-        .player1 {
-            background: var(--player1-color);
-            transform: rotate(180deg);
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.8rem;
         }
 
-        .player2 {
-            background: var(--player2-color);
-        }
-
-        .player-section.active-turn {
-            box-shadow: inset 0 0 0 4px var(--accent-color);
-            animation: pulse-turn 2s infinite;
-        }
-
-        @keyframes pulse-turn {
-            0% { box-shadow: inset 0 0 0 4px var(--accent-color); }
-            50% { box-shadow: inset 0 0 0 8px var(--accent-color); }
-            100% { box-shadow: inset 0 0 0 4px var(--accent-color); }
-        }
-
-        /* El contenido de ambos jugadores se muestra igual, sin contrarrotar */
-        .player1 .player-content,
-        .player2 .player-content {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            align-items: center;
-            padding: 8px 6px;
-        }
-
-        .display-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 40%;
-            width: 100%;
-        }
-
-        .life-display {
-            font-size: clamp(2.2rem, 12vw, 6rem);
+        .hero {
             text-align: center;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 0 15px rgba(0,0,0,0.7);
-            margin: 5px 0;
-            user-select: none;
-            line-height: 1;
+            margin-bottom: 3rem;
         }
-
-        .life-display.with-timer {
-            font-size: clamp(1.8rem, 10vw, 4.5rem);
-        }
-
-        .life-controls {
-            display: flex;
-            gap: clamp(15px, 5vw, 20px);
-            margin-top: 5px;
-        }
-
-        .life-btn {
-            width: clamp(45px, 14vw, 60px);
-            height: clamp(45px, 14vw, 60px);
-            border-radius: 50%;
-            border: 3px solid white;
-            background: rgba(255,255,255,0.9);
-            font-size: clamp(1.5rem, 8vw, 2rem);
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.1s ease;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-            touch-action: manipulation;
-        }
-
-        .life-btn:active {
-            transform: scale(0.95);
-        }
-
-        .life-btn.decrease {
-            background: var(--red-state);
-            color: white;
-        }
-
-        .life-btn.increase {
-            background: var(--green-state);
-            color: white;
-        }
-
-        .time-display {
-            font-size: clamp(1.6rem, 9vw, 4rem);
-            text-align: center;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            margin: 8px 0;
-            user-select: none;
-            line-height: 1;
-        }
-
-        .time-display.with-life {
-            font-size: clamp(1.2rem, 6vw, 2.5rem);
-        }
-
-        /* Marcadores de habilidades - posiciones originales adaptadas con % y vw */
-        .ability-markers {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-        }
-
-        .ability-button {
-            position: absolute;
-            min-width: 12%;
-            height: 11%;
-            border-radius: 20px;
-            border: 2px solid var(--accent-color);
-            background: linear-gradient(135deg, var(--green-state) 60%, #2e8bff 100%);
-            color: #fff;
-            font-size: clamp(0.6rem, 3vw, 1rem);
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            pointer-events: auto;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.25);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.25), 0 1.5px 0 var(--accent-color) inset;
-            padding: 0 2%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: all 0.1s ease;
-            touch-action: manipulation;
-        }
-
-        /* En móviles muy pequeños, permitimos que el texto se rompa */
-        @media (max-width: 500px) {
-            .ability-button {
-                white-space: normal;
-                word-break: break-word;
-                padding: 2px 2px;
-                font-size: 0.6rem;
-            }
-        }
-
-        .ability-button:active {
-            background: linear-gradient(135deg, #1a1a1a 60%, var(--green-state) 100%);
-            transform: scale(0.97);
-        }
-
-        .ability-button.main-marker {
-            min-width: 70%;
-            height: 10%;
-            font-size: clamp(0.7rem, 3.5vw, 1rem);
-            padding: 0 5%;
-        }
-
-        .ability-button.used {
-            background: var(--red-state);
-        }
-
-        /* Posiciones originales (sin cambios) pero usando % para que se adapten */
-        .player1 .ability-button.main-marker { top: 80%; left: 50%; transform: translateX(-50%); }
-        .player1 .ability-button:nth-child(2) { top: 30%; left: 6%; }
-        .player1 .ability-button:nth-child(3) { top: 30%; right: 6%; }
-        .player1 .ability-button:nth-child(4) { top: 50%; left: 4%; }
-        .player1 .ability-button:nth-child(5) { top: 50%; right: 4%; }
-        .player1 .ability-button:nth-child(6) { top: 68%; left: 6%; }
-        .player1 .ability-button:nth-child(7) { top: 68%; right: 6%; }
-        .player1 .ability-button:nth-child(8) { top: 68%; left: 50%; transform: translateX(-50%); }
-
-        .player2 .ability-button.main-marker { bottom: 8%; left: 50%; transform: translateX(-50%); }
-        .player2 .ability-button:nth-child(2) { bottom: 60%; left: 6%; }
-        .player2 .ability-button:nth-child(3) { bottom: 60%; right: 6%; }
-        .player2 .ability-button:nth-child(4) { bottom: 40%; left: 4%; }
-        .player2 .ability-button:nth-child(5) { bottom: 40%; right: 4%; }
-        .player2 .ability-button:nth-child(6) { bottom: 20%; left: 6%; }
-        .player2 .ability-button:nth-child(7) { bottom: 20%; right: 6%; }
-        .player2 .ability-button:nth-child(8) { bottom: 10%; left: 50%; transform: translateX(-50%); }
-
-        /* Controles flotantes más grandes y bien ubicados */
-        .control-btn {
-            position: fixed;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: none;
-            background: linear-gradient(135deg, #fffbe7 70%, #e6e6e6 100%);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            z-index: 10;
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s;
-            touch-action: manipulation;
-        }
-        .control-btn:active {
-            transform: scale(0.94);
-        }
-
-        .start-btn {
-            bottom: 20px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
-        }
-        .pause-btn {
-            bottom: 20px;
-            right: 20px;
-            background: #ff9800;
-            color: white;
-        }
-        .final-stop-btn {
-            bottom: 20px;
-            right: 20px;
-            background: #f44336;
-            color: white;
-        }
-        .config-btn {
-            top: 20px;
-            left: 20px;
-            background: #222;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        /* Botón de turno central */
-        .turn-btn {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70vw;
-            max-width: 280px;
-            height: 56px;
-            border-radius: 40px;
-            background: var(--accent-color);
-            color: #000;
-            font-weight: bold;
-            font-size: 1.3rem;
-            z-index: 20;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            touch-action: manipulation;
-        }
-        .turn-btn:active {
-            transform: translate(-50%, -50%) scale(0.97);
-        }
-        .turn-arrow {
-            font-size: 1.2rem;
-        }
-
-        /* Ajustes para pantallas con poca altura (landscape o móviles pequeños) */
-        @media (max-height: 600px) {
-            .ability-button { height: 12%; font-size: 0.55rem; }
-            .life-display { font-size: 2rem; }
-            .time-display { font-size: 1.4rem; }
-            .life-btn { width: 40px; height: 40px; font-size: 1.3rem; }
-            .player-content { padding: 4px; }
-            .turn-btn { height: 48px; font-size: 1rem; width: 60vw; }
-        }
-
-        /* Panel de configuración (sin cambios, solo ajuste de scroll) */
-        .config-panel {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.97);
-            padding: 20px 12px;
-            border-radius: 28px;
-            width: 92vw;
-            max-width: 420px;
-            max-height: 88vh;
-            overflow-y: auto;
-            z-index: 30;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .config-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .config-tab {
-            flex: 1;
-            padding: 10px 0;
-            background: rgba(255,255,255,0.1);
-            border: none;
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(120deg, var(--burdeos), var(--verde-oscuro));
+            padding: 0.3rem 1rem;
             border-radius: 60px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(4px);
         }
-        .config-tab.active {
-            background: var(--accent-color);
-            color: black;
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(145deg, #ffffff, var(--celeste));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
         }
-        .config-content { display: none; }
-        .config-content.active { display: block; }
-        .config-input, .marker-input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gris-suave);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            border: 1px solid rgba(75, 192, 212, 0.25);
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5);
+        }
+        .glass-card:hover {
+            border-color: var(--celeste);
+            transform: translateY(-5px);
+            box-shadow: 0 25px 40px -12px rgba(75,192,212,0.2);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--celeste);
+            padding-left: 1rem;
+        }
+        .section-header i {
+            font-size: 1.6rem;
+            color: var(--celeste);
+        }
+        .section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 1rem 0 0.5rem;
+        }
+        .badge {
+            background: linear-gradient(135deg, rgba(27, 46, 53, 0.9), rgba(15, 25, 35, 0.9));
+            padding: 0.5rem 1.2rem;
             border-radius: 40px;
-            border: none;
-            background: #222;
-            color: white;
-            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--verde-menta);
+            color: var(--celeste);
+            transition: 0.15s;
+        }
+        .badge i {
+            margin-right: 6px;
+            font-size: 0.75rem;
+        }
+
+        .timeline-entry {
+            margin-bottom: 1.3rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px dashed rgba(75,192,212,0.2);
+        }
+        .timeline-entry h4 {
+            font-weight: 700;
             font-size: 1rem;
-        }
-        .display-options, .markers-config {
-            background: rgba(255,255,255,0.08);
-            padding: 16px;
-            border-radius: 24px;
-            margin: 16px 0;
-        }
-        .option-group { display: flex; flex-direction: column; gap: 10px; }
-        .option-item { display: flex; align-items: center; gap: 12px; }
-        .marker-list { max-height: 160px; overflow-y: auto; margin-top: 10px; }
-        .marker-item {
             display: flex;
             justify-content: space-between;
-            background: #2a2a2a;
-            padding: 8px 16px;
-            border-radius: 40px;
-            margin-bottom: 8px;
-        }
-        .remove-marker-btn {
-            background: var(--red-state);
-            border: none;
-            color: white;
-            border-radius: 40px;
-            padding: 4px 12px;
-            cursor: pointer;
-        }
-        .config-btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
             flex-wrap: wrap;
+            color: #eff3ff;
         }
-        .config-btn-group button {
-            flex: 1;
-            padding: 12px;
+        .timeline-entry span {
+            font-weight: 500;
+            color: var(--celeste);
+            font-size: 0.75rem;
+            background: rgba(75,192,212,0.2);
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+        }
+        .timeline-entry p {
+            font-size: 0.85rem;
+            color: var(--gris-suave);
+            margin-top: 6px;
+        }
+
+        .contact-block {
+            margin-top: 2rem;
+            background: rgba(145, 28, 52, 0.15);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            border: 1px solid rgba(145, 28, 52, 0.4);
+            text-align: center;
+        }
+        .contact-row-flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+        .contact-item {
+            background: rgba(0,0,0,0.4);
+            padding: 0.5rem 1.2rem;
             border-radius: 60px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
         }
-        .apply-btn { background: var(--green-state); color: white; }
-        .cancel-btn { background: var(--red-state); color: white; }
-        .reset-btn { background: #666; color: white; }
+        .contact-item i {
+            font-size: 1.1rem;
+            color: var(--celeste);
+        }
+        .phone-note {
+            font-size: 0.7rem;
+            display: block;
+            color: #b4c8e0;
+            margin-top: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.8rem;
+            border-top: 1px solid rgba(75,192,212,0.2);
+            font-size: 0.75rem;
+            color: #8792b0;
+        }
+
+        @media (max-width: 850px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.2rem;
+            }
+            .glass-card {
+                padding: 1.4rem;
+            }
+            .contact-item {
+                padding: 0.3rem 0.9rem;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Jugador 1 (Rojo, arriba, rotado 180°) -->
-    <div class="player-section player1">
-        <div class="player-content">
-            <div class="display-container">
-                <div id="life1-display" class="life-display">20</div>
-                <div id="life1-controls" class="life-controls">
-                    <button class="life-btn decrease" onclick="changeLife(1, -1)">-</button>
-                    <button class="life-btn increase" onclick="changeLife(1, 1)">+</button>
-                </div>
-                <div id="time1-display" class="time-display">25:00</div>
-            </div>
-            <div class="ability-markers" id="markers1">
-                <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
-            </div>
-        </div>
+<div class="container">
+    <div class="hero">
+        <div class="hero-badge"><i class="fas fa-mobile-alt"></i> Desarrollador Multiplataforma · 2026</div>
+        <h1>Marco Antonio López Valdés</h1>
+        <p><i class="fas fa-code"></i> Ingeniero en Informática | Apps móviles, frontend y bases de datos. Próximo lanzamiento en Google Play Store.</p>
     </div>
-    
-    <!-- Jugador 2 (Morado, abajo, normal) -->
-    <div class="player-section player2">
-        <div class="player-content">
-            <div class="display-container">
-                <div id="life2-display" class="life-display">20</div>
-                <div id="life2-controls" class="life-controls">
-                    <button class="life-btn decrease" onclick="changeLife(2, -1)">-</button>
-                    <button class="life-btn increase" onclick="changeLife(2, 1)">+</button>
+
+    <div class="two-columns">
+        <!-- Columna izquierda: certificaciones + experiencia -->
+        <div class="glass-card">
+            <div class="section-header">
+                <i class="fas fa-certificate"></i>
+                <h2>Certificaciones DUOC UC</h2>
+            </div>
+            <div class="badge-container">
+                <span class="badge"><i class="fas fa-code"></i> Programación Software</span>
+                <span class="badge"><i class="fas fa-project-diagram"></i> Arquitectura Software</span>
+                <span class="badge"><i class="fas fa-tasks"></i> Gestión de Proyectos</span>
+                <span class="badge"><i class="fas fa-chart-line"></i> Análisis Requerimientos</span>
+                <span class="badge"><i class="fas fa-database"></i> Modelos de Datos</span>
+                <span class="badge"><i class="fas fa-check-double"></i> Calidad de Software</span>
+            </div>
+            <p style="font-size:0.75rem; margin-top: 0.8rem; color:#a0b3d9;"><i class="fas fa-university"></i> Instituto Profesional DUOC UC · Certificación oficial (30 abril 2026)</p>
+
+            <div class="section-header" style="margin-top: 2rem;">
+                <i class="fas fa-briefcase"></i>
+                <h2>Experiencia profesional</h2>
+            </div>
+            <div class="timeline-entry">
+                <h4>Promotor / Vendedor <span>2012 - 2018</span></h4>
+                <p>EST Ene Corp. · Dersa · Whittard: atención al cliente, gestión de inventario, campañas masivas (Movistar Mundial 2014).</p>
+            </div>
+            <div class="timeline-entry">
+                <h4>Asistente de tienda / Bodeguero <span>2016 - 2018</span></h4>
+                <p>Control de stock, reposición y logística en retail. Alta capacidad resolutiva.</p>
+            </div>
+            <div class="timeline-entry">
+                <h4>Extra en Comercial Movistar <span>Copa Mundial 2014</span></h4>
+                <p>Activación de marca y promoción en eventos internacionales.</p>
+            </div>
+        </div>
+
+        <!-- Columna derecha: educación, tecnologías actualizadas y contacto -->
+        <div class="glass-card">
+            <div class="section-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>Formación académica</h2>
+            </div>
+            <div class="timeline-entry">
+                <h4>Ingeniería en Informática <span>2022 - 2026</span></h4>
+                <p>Duoc UC · Desarrollo full stack, bases de datos, gestión y calidad de software.</p>
+            </div>
+            <div class="timeline-entry">
+                <h4>Ingeniería Electrónica (1er semestre) <span>2017</span></h4>
+                <p>INACAP · Fundamentos de electrónica y circuitos.</p>
+            </div>
+            <div class="timeline-entry">
+                <h4>Kinesiología (1er semestre) <span>2016</span></h4>
+                <p>IPCHILE · Ciencias de la salud.</p>
+            </div>
+            <div class="timeline-entry">
+                <h4>Educación Media <span>2014 - 2015</span></h4>
+                <p>Liceo José Miguel Carrera · Instituto Pre Militar Luis Cruz Martínez.</p>
+            </div>
+
+            <div class="section-header" style="margin-top: 1.5rem;">
+                <i class="fas fa-microchip"></i>
+                <h2>Tecnologías & herramientas</h2>
+            </div>
+            <div class="badge-container">
+                <span class="badge"><i class="fab fa-html5"></i> HTML5/CSS3</span>
+                <span class="badge"><i class="fab fa-js"></i> JavaScript</span>
+                <span class="badge"><i class="fab fa-react"></i> React</span>
+                <span class="badge"><i class="fas fa-mobile-alt"></i> Ionic</span>
+                <span class="badge"><i class="fab fa-android"></i> Android Studio</span>
+                <span class="badge"><i class="fas fa-code"></i> TypeScript</span>
+                <span class="badge"><i class="fas fa-cloud"></i> APIs REST</span>
+                <span class="badge"><i class="fas fa-database"></i> SQL*Plus</span>
+                <span class="badge"><i class="fas fa-database"></i> Data Modeler</span>
+                <span class="badge"><i class="fas fa-database"></i> Consultas SQL</span>
+                <span class="badge"><i class="fas fa-box"></i> LocalStorage</span>
+                <span class="badge"><i class="fas fa-layer-group"></i> Desarrollo móvil híbrido</span>
+            </div>
+            <p style="font-size:0.75rem; margin-top: 0.5rem; color:#b3c7e3;"><i class="fas fa-rocket"></i> Experiencia en aplicaciones multiplataforma, integración con APIs y modelado de datos relacionales.</p>
+
+            <!-- Bloque contacto actualizado sin CV -->
+            <div class="contact-block">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <i class="fas fa-address-card" style="color: var(--celeste); font-size: 1.2rem;"></i>
+                    <strong>Contacto profesional</strong>
                 </div>
-                <div id="time2-display" class="time-display">25:00</div>
-            </div>
-            <div class="ability-markers" id="markers2">
-                <button class="ability-button main-marker" onclick="toggleAbility(this)">GX/EX/V</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Controles flotantes -->
-    <button id="startBtn" class="control-btn start-btn" onclick="startTimer()">▶</button>
-    <button id="pauseBtn" class="control-btn pause-btn" onclick="pauseTimer()" style="display: none;">⏸</button>
-    <button id="finalStopBtn" class="control-btn final-stop-btn" onclick="resetTimer()" style="display: none;">⏹</button>
-    <button class="control-btn config-btn" onclick="showConfig()">⚙</button>
-    
-    <!-- Botón de cambio de turno -->
-    <button id="turnBtn" class="turn-btn" onclick="switchTurn()">
-        <span class="turn-arrow">▲</span><span>ROJO</span><span class="turn-arrow">▲</span>
-    </button>
-    
-    <!-- Panel de configuración (contenido completo) -->
-    <div id="configPanel" class="config-panel" style="display: none;">
-        <div class="config-tabs">
-            <button class="config-tab active" onclick="showTab(event, 'timer')">Tiempo</button>
-            <button class="config-tab" onclick="showTab(event, 'display')">Pantalla</button>
-            <button class="config-tab" onclick="showTab(event, 'markers')">Botones</button>
-        </div>
-        <div id="timer-config" class="config-content active">
-            <h3>Minutos por jugador</h3>
-            <input type="number" id="timerMinutes" class="config-input" value="25" min="1" max="120">
-            <div class="config-btn-group"><button class="apply-btn" onclick="applyTimerSettings()">Aplicar</button><button class="reset-btn" onclick="resetTimer()">Resetear</button></div>
-        </div>
-        <div id="display-config" class="config-content">
-            <h3>Modo de visualización</h3>
-            <div class="display-options">
-                <div class="option-group">
-                    <div class="option-item"><input type="radio" name="display-mode" value="timer" id="mode-timer"><label for="mode-timer">Solo Cronómetro</label></div>
-                    <div class="option-item"><input type="radio" name="display-mode" value="life" id="mode-life"><label for="mode-life">Solo Vida</label></div>
-                    <div class="option-item"><input type="radio" name="display-mode" value="both" id="mode-both" checked><label for="mode-both">Cronómetro + Vida</label></div>
+                <div class="contact-row-flex">
+                    <div class="contact-item"><i class="fas fa-envelope"></i> m4rco.valdes@gmail.com</div>
+                    <div class="contact-item"><i class="fab fa-whatsapp"></i> +56 9 4023 7227</div>
                 </div>
-                <h4>Vida inicial</h4>
-                <input type="number" id="initial-life" class="config-input" value="20" min="1" max="999">
+                <div class="phone-note">
+                    <i class="fas fa-info-circle"></i> Este número solo recibe mensajes / WhatsApp (no llamadas)
+                </div>
+                <div style="margin-top: 10px; font-size: 0.7rem; background: rgba(0,0,0,0.3); border-radius: 60px; padding: 0.3rem 0.6rem; display: inline-block;">
+                    <i class="fas fa-id-card"></i> Rut: 19.484.742-4
+                </div>
             </div>
-            <div class="config-btn-group"><button class="apply-btn" onclick="applyDisplaySettings()">Aplicar</button><button class="cancel-btn" onclick="hideConfig()">Volver</button></div>
-        </div>
-        <div id="markers-config" class="config-content">
-            <h3>Configurar marcadores</h3>
-            <div class="markers-config"><h4>Jugador Rojo</h4><input type="text" id="main-ability1" class="config-input" value="TRAINER"><div id="ability-counter1">Adicionales: 0/6</div><div><input type="text" id="new-ability1" class="marker-input" placeholder="Nuevo marcador"><button id="add-btn1" onclick="addAdditionalMarker(1)">+ Agregar</button></div><div id="additional-markers1" class="marker-list"></div></div>
-            <div class="markers-config"><h4>Jugador Morado</h4><input type="text" id="main-ability2" class="config-input" value="TRAINER"><div id="ability-counter2">Adicionales: 0/6</div><div><input type="text" id="new-ability2" class="marker-input" placeholder="Nuevo marcador"><button id="add-btn2" onclick="addAdditionalMarker(2)">+ Agregar</button></div><div id="additional-markers2" class="marker-list"></div></div>
-            <div class="config-btn-group"><button class="apply-btn" onclick="updateAbilities()">Aplicar</button><button class="reset-btn" onclick="resetAbilities()">Reset</button><button class="cancel-btn" onclick="hideConfig()">Cerrar</button></div>
+            <div style="margin-top: 1.5rem; text-align: center; font-size: 0.8rem; background: linear-gradient(145deg, #13111c, #0c0a12); border-radius: 1rem; padding: 0.8rem;">
+                <i class="fas fa-star-of-life" style="color: var(--verde-menta);"></i> Enfocado en apps móviles, frontend moderno y bases de datos. ¡Próximos lanzamientos en Play Store!
+            </div>
         </div>
     </div>
 
-    <script>
-        // ========== TU CÓDIGO JAVASCRIPT ORIGINAL (sin modificaciones) ==========
-        let timer1 = 25 * 60;
-        let timer2 = 25 * 60;
-        let life1 = 20;
-        let life2 = 20;
-        let isRunning = false;
-        let timerInterval = null;
-        let currentPlayer = 1;
-        let displayMode = 'both';
-        let player1Abilities = ['GX/EX/V'];
-        let player2Abilities = ['GX/EX/V'];
-        let additionalAbilities1 = [];
-        let additionalAbilities2 = [];
-        
-        window.onload = function() {
-            loadConfig();
-            updateDisplays();
-            applyDisplaySettings();
-            createAbilityMarkers();
-            updateAdditionalMarkersConfig(1);
-            updateAdditionalMarkersConfig(2);
-            document.querySelector('.player1').classList.add('active-turn');
-            updateTurnButtonText();
-        };
-        
-        function updateTurnButtonText() {
-            const btn = document.getElementById('turnBtn');
-            if (currentPlayer === 1) btn.innerHTML = '<span class="turn-arrow">▲</span><span>ROJO</span><span class="turn-arrow">▲</span>';
-            else btn.innerHTML = '<span class="turn-arrow">▼</span><span>MORADO</span><span class="turn-arrow">▼</span>';
-        }
-        
-        function showConfig() { document.getElementById('configPanel').style.display = 'block'; loadMarkersConfig(); }
-        function hideConfig() { document.getElementById('configPanel').style.display = 'none'; }
-        function showTab(event, tabName) {
-            document.querySelectorAll('.config-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(`${tabName}-config`).classList.add('active');
-            event.target.classList.add('active');
-        }
-        
-        function toggleAbility(button) { button.classList.toggle('used'); }
-        
-        function createAbilityMarkers() {
-            const markers1 = document.getElementById('markers1');
-            markers1.innerHTML = '';
-            const mainMarker1 = document.createElement('button');
-            mainMarker1.className = 'ability-button main-marker';
-            mainMarker1.textContent = player1Abilities[0];
-            mainMarker1.onclick = () => toggleAbility(mainMarker1);
-            markers1.appendChild(mainMarker1);
-            additionalAbilities1.forEach((ability) => {
-                const marker = document.createElement('button');
-                marker.className = 'ability-button';
-                marker.textContent = ability;
-                marker.onclick = () => toggleAbility(marker);
-                markers1.appendChild(marker);
-            });
-            
-            const markers2 = document.getElementById('markers2');
-            markers2.innerHTML = '';
-            const mainMarker2 = document.createElement('button');
-            mainMarker2.className = 'ability-button main-marker';
-            mainMarker2.textContent = player2Abilities[0];
-            mainMarker2.onclick = () => toggleAbility(mainMarker2);
-            markers2.appendChild(mainMarker2);
-            additionalAbilities2.forEach((ability) => {
-                const marker = document.createElement('button');
-                marker.className = 'ability-button';
-                marker.textContent = ability;
-                marker.onclick = () => toggleAbility(marker);
-                markers2.appendChild(marker);
-            });
-        }
-        
-        function addAdditionalMarker(player) {
-            const input = document.getElementById(`new-ability${player}`);
-            const text = input.value.trim();
-            if (text && text.length <= 20) {
-                if (player === 1 && additionalAbilities1.length < 6) {
-                    additionalAbilities1.push(text);
-                    input.value = '';
-                    updateAdditionalMarkersConfig(1);
-                    createAbilityMarkers();
-                } else if (player === 2 && additionalAbilities2.length < 6) {
-                    additionalAbilities2.push(text);
-                    input.value = '';
-                    updateAdditionalMarkersConfig(2);
-                    createAbilityMarkers();
-                }
-            }
-        }
-        
-        function removeAdditionalMarker(player, index) {
-            if (player === 1) additionalAbilities1.splice(index,1);
-            else additionalAbilities2.splice(index,1);
-            updateAdditionalMarkersConfig(player);
-            createAbilityMarkers();
-        }
-        
-        function updateAdditionalMarkersConfig(player) {
-            const container = document.getElementById(`additional-markers${player}`);
-            const abilities = player === 1 ? additionalAbilities1 : additionalAbilities2;
-            container.innerHTML = '';
-            abilities.forEach((ability, idx) => {
-                const item = document.createElement('div');
-                item.className = 'marker-item';
-                item.innerHTML = `<span>${ability}</span><button class="remove-marker-btn" onclick="removeAdditionalMarker(${player}, ${idx})">✖</button>`;
-                container.appendChild(item);
-            });
-            document.getElementById(`ability-counter${player}`).textContent = `Adicionales: ${abilities.length}/6`;
-            document.getElementById(`add-btn${player}`).disabled = abilities.length >= 6;
-        }
-        
-        function loadMarkersConfig() {
-            document.getElementById('main-ability1').value = player1Abilities[0];
-            document.getElementById('main-ability2').value = player2Abilities[0];
-            updateAdditionalMarkersConfig(1);
-            updateAdditionalMarkersConfig(2);
-        }
-        
-        function updateAbilities() {
-            player1Abilities[0] = document.getElementById('main-ability1').value || 'GX/EX/V';
-            player2Abilities[0] = document.getElementById('main-ability2').value || 'GX/EX/V';
-            createAbilityMarkers();
-            saveConfig();
-            hideConfig();
-        }
-        
-        function resetAbilities() {
-            player1Abilities = ['GX/EX/V'];
-            player2Abilities = ['GX/EX/V'];
-            additionalAbilities1 = [];
-            additionalAbilities2 = [];
-            createAbilityMarkers();
-            loadMarkersConfig();
-            saveConfig();
-        }
-        
-        function applyTimerSettings() {
-            const minutes = parseInt(document.getElementById('timerMinutes').value) || 25;
-            timer1 = minutes * 60;
-            timer2 = minutes * 60;
-            updateDisplays();
-            saveConfig();
-            hideConfig();
-        }
-        
-        function resetTimer() {
-            isRunning = false;
-            if (timerInterval) clearInterval(timerInterval);
-            const minutes = parseInt(document.getElementById('timerMinutes').value) || 25;
-            timer1 = timer2 = minutes * 60;
-            document.getElementById('startBtn').style.display = 'block';
-            document.getElementById('pauseBtn').style.display = 'none';
-            document.getElementById('finalStopBtn').style.display = 'none';
-            updateDisplays();
-            saveConfig();
-        }
-        
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
-        
-        function updateDisplays() {
-            document.getElementById('time1-display').textContent = formatTime(timer1);
-            document.getElementById('time2-display').textContent = formatTime(timer2);
-            document.getElementById('life1-display').textContent = life1;
-            document.getElementById('life2-display').textContent = life2;
-        }
-        
-        function applyDisplaySettings() {
-            const selectedMode = document.querySelector('input[name="display-mode"]:checked').value;
-            const initialLife = parseInt(document.getElementById('initial-life').value) || 20;
-            displayMode = selectedMode;
-            life1 = life2 = initialLife;
-            const life1Display = document.getElementById('life1-display');
-            const life2Display = document.getElementById('life2-display');
-            const life1Controls = document.getElementById('life1-controls');
-            const life2Controls = document.getElementById('life2-controls');
-            const time1Display = document.getElementById('time1-display');
-            const time2Display = document.getElementById('time2-display');
-            life1Display.className = 'life-display';
-            life2Display.className = 'life-display';
-            time1Display.className = 'time-display';
-            time2Display.className = 'time-display';
-            switch (displayMode) {
-                case 'timer':
-                    life1Display.style.display = 'none';
-                    life2Display.style.display = 'none';
-                    life1Controls.style.display = 'none';
-                    life2Controls.style.display = 'none';
-                    time1Display.style.display = 'block';
-                    time2Display.style.display = 'block';
-                    break;
-                case 'life':
-                    life1Display.style.display = 'block';
-                    life2Display.style.display = 'block';
-                    life1Controls.style.display = 'flex';
-                    life2Controls.style.display = 'flex';
-                    time1Display.style.display = 'none';
-                    time2Display.style.display = 'none';
-                    break;
-                case 'both':
-                    life1Display.style.display = 'block';
-                    life2Display.style.display = 'block';
-                    life1Controls.style.display = 'flex';
-                    life2Controls.style.display = 'flex';
-                    time1Display.style.display = 'block';
-                    time2Display.style.display = 'block';
-                    life1Display.classList.add('with-timer');
-                    life2Display.classList.add('with-timer');
-                    time1Display.classList.add('with-life');
-                    time2Display.classList.add('with-life');
-                    break;
-            }
-            updateDisplays();
-            saveConfig();
-        }
-        
-        function changeLife(player, change) {
-            if (player === 1) life1 = Math.max(0, life1 + change);
-            else life2 = Math.max(0, life2 + change);
-            updateDisplays();
-            saveConfig();
-        }
-        
-        function startTimer() {
-            if (!isRunning) {
-                isRunning = true;
-                document.getElementById('startBtn').style.display = 'none';
-                document.getElementById('pauseBtn').style.display = 'block';
-                document.getElementById('finalStopBtn').style.display = 'none';
-                timerInterval = setInterval(() => {
-                    if (currentPlayer === 1) {
-                        if (timer1 > 0) timer1--;
-                        if (timer1 === 0) { pauseTimer(); alert('¡Tiempo agotado para Jugador 1!'); }
-                    } else {
-                        if (timer2 > 0) timer2--;
-                        if (timer2 === 0) { pauseTimer(); alert('¡Tiempo agotado para Jugador 2!'); }
-                    }
-                    updateDisplays();
-                }, 1000);
-            }
-        }
-        
-        function pauseTimer() {
-            if (isRunning) {
-                isRunning = false;
-                if (timerInterval) clearInterval(timerInterval);
-                timerInterval = null;
-                document.getElementById('startBtn').style.display = 'block';
-                document.getElementById('pauseBtn').style.display = 'none';
-                document.getElementById('finalStopBtn').style.display = 'block';
-            }
-        }
-        
-        function switchTurn() {
-            if (isRunning) {
-                currentPlayer = currentPlayer === 1 ? 2 : 1;
-                updateTurnButtonText();
-                const player1 = document.querySelector('.player1');
-                const player2 = document.querySelector('.player2');
-                if (currentPlayer === 1) {
-                    player1.classList.add('active-turn');
-                    player2.classList.remove('active-turn');
-                } else {
-                    player2.classList.add('active-turn');
-                    player1.classList.remove('active-turn');
-                }
-                resetPlayerMarkers(currentPlayer);
-            }
-        }
-        
-        function resetPlayerMarkers(player) {
-            document.querySelectorAll(`#markers${player} .ability-button`).forEach(marker => marker.classList.remove('used'));
-        }
-        
-        function saveConfig() {
-            const config = {
-                timer1, timer2, life1, life2, displayMode,
-                player1Abilities, player2Abilities,
-                additionalAbilities1, additionalAbilities2,
-                timerMinutes: Math.floor(timer1 / 60)
-            };
-            localStorage.setItem('pokemonTCGTimer', JSON.stringify(config));
-        }
-        
-        function loadConfig() {
-            const saved = localStorage.getItem('pokemonTCGTimer');
-            if (saved) {
-                const config = JSON.parse(saved);
-                timer1 = config.timer1 || 25*60;
-                timer2 = config.timer2 || 25*60;
-                life1 = config.life1 || 20;
-                life2 = config.life2 || 20;
-                displayMode = config.displayMode || 'both';
-                player1Abilities = config.player1Abilities || ['GX/EX/V'];
-                player2Abilities = config.player2Abilities || ['GX/EX/V'];
-                additionalAbilities1 = config.additionalAbilities1 || [];
-                additionalAbilities2 = config.additionalAbilities2 || [];
-                document.getElementById('timerMinutes').value = config.timerMinutes || 25;
-                document.getElementById('initial-life').value = life1;
-                document.querySelector(`input[name="display-mode"][value="${displayMode}"]`).checked = true;
-            }
-        }
-        
-        document.addEventListener('keydown', function(e) {
-            if (e.code === 'Space') {
-                e.preventDefault();
-                if (isRunning) pauseTimer();
-                else if (document.getElementById('startBtn').style.display !== 'none') startTimer();
-            }
-        });
-    </script>
+    <div class="footer">
+        <i class="far fa-copyright"></i> Marco Antonio López Valdés · Ingeniero en Informática · Portafolio profesional · 2026
+    </div>
+</div>
 </body>
 </html>
